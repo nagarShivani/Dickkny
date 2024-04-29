@@ -4,6 +4,7 @@ const auth_Middleware = require("../controller/Authmiddleware/authmiddleware");
 const user_controller = require("../controller/usercontroller");
 const department_controller=require("../controller/Departmentcontroller");
 const product_controller=require("../controller/productController");
+const cart_controller=require("../controller/cartController");
 
 //user Routes
 router.post("/signup", user_controller.signup);
@@ -22,5 +23,10 @@ router.get("/getAllDepartmentById/:id",department_controller.getAllDepartmentByI
 //Product Routes
 router.post("/addProduct",product_controller.addProduct);
 router.get("/getAllProduct",product_controller.getAllProduct);
+
+//Product Cart
+router.post("/addTocart",cart_controller.addTocart);
+router.post("/removeFromCart",cart_controller.removeFromCart);
+router.post("/updateCart",cart_controller.updateCart);
 
 module.exports = router;
