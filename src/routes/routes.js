@@ -23,6 +23,7 @@ router.get("/getAllDepartmentById/:id",department_controller.getAllDepartmentByI
 //Product Routes
 router.post("/addProduct",product_controller.addProduct);
 router.get("/getAllProduct",product_controller.getAllProduct);
+router.get("/getAllProductsById/:id",product_controller.getAllProductsById);
 
 //Product Cart
 router.post("/addTocart",cart_controller.addTocart);
