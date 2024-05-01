@@ -5,6 +5,8 @@ const user_controller = require("../controller/usercontroller");
 const department_controller=require("../controller/Departmentcontroller");
 const product_controller=require("../controller/productController");
 const cart_controller=require("../controller/cartController");
+const coupon_controller=require("../controller/couponController");
+const order_controller=require("../controller/orderController");
 
 //user Routes
 router.post("/signup", user_controller.signup);
@@ -29,5 +31,16 @@ router.get("/getAllProductsById/:id",product_controller.getAllProductsById);
 router.post("/addTocart",cart_controller.addTocart);
 router.post("/removeFromCart",cart_controller.removeFromCart);
 router.post("/updateCart",cart_controller.updateCart);
+
+//coupon 
+router.post('/createCoupon', coupon_controller.createCoupon);
+router.post('/applyCoupon', coupon_controller.applyCoupon);
+router.get('/getAllCoupons', coupon_controller.getAllCoupons);
+router.get('/getCouponById/:id', coupon_controller.getCouponById);
+router.put('/updateCoupon/:id', coupon_controller.updateCoupon);
+router.delete('/deleteCoupon/:id', coupon_controller.deleteCoupon);
+
+//orders
+router.get('/getMyOrders', order_controller.getMyOrders);
 
 module.exports = router;
