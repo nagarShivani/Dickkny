@@ -29,6 +29,7 @@ router.get("/getAllProductsById/:id",product_controller.getAllProductsById);
 
 //Product Cart
 router.post("/addTocart",cart_controller.addTocart);
+router.get("/getCartOfUser/:userId",cart_controller.getCartOfUser);
 router.post("/removeFromCart",cart_controller.removeFromCart);
 router.post("/updateCart",cart_controller.updateCart);
 
