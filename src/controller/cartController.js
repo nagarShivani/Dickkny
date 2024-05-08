@@ -1,6 +1,4 @@
 const Cart = require("../Schema/cart");
-const Product = require("../Schema/product");
-
 
 exports.addTocart = async (req, res) => {
   try {
@@ -34,8 +32,6 @@ exports.addTocart = async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
-
-
 
   exports.getCartOfUser = async (req, res) => {
   try {
