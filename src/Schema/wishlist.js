@@ -1,27 +1,23 @@
 const mongoose = require('mongoose');
 
 // Define the schema for the cart item
-const cartItemSchema = new mongoose.Schema({
+const wishListItemSchema = new mongoose.Schema({
   productId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'product',
     required: true
   },
-  quantity: {
-    type: Number,
-    required: true,
-    min: 1
-  }
+
 });
 
 // Define the schema for the cart
-const cartSchema = new mongoose.Schema({
+const wishlistSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true
   },
-  items: [cartItemSchema],
+  items: [wishListItemSchema],
   createdAt: {
     type: Date,
     default: Date.now
@@ -29,6 +25,6 @@ const cartSchema = new mongoose.Schema({
 });
 
 // Define model for the cart schema
-const Cart = mongoose.model('Cart', cartSchema);
+const Cart = mongoose.model('WishList', wishlistSchema);
 
 module.exports = Cart;

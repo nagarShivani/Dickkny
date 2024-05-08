@@ -5,6 +5,7 @@ const user_controller = require("../controller/usercontroller");
 const department_controller=require("../controller/Departmentcontroller");
 const product_controller=require("../controller/productController");
 const cart_controller=require("../controller/cartController");
+const wishlist_controller=require("../controller/wishListController");
 const coupon_controller=require("../controller/couponController");
 const order_controller=require("../controller/orderController");
 
@@ -32,6 +33,12 @@ router.post("/addTocart",cart_controller.addTocart);
 router.get("/getCartOfUser/:userId",cart_controller.getCartOfUser);
 router.post("/removeFromCart",cart_controller.removeFromCart);
 router.post("/updateCart",cart_controller.updateCart);
+
+//wishlist
+router.post("/addToWishList",wishlist_controller.addToWishList);
+router.get("/getWishListOfUser/:userId",wishlist_controller.getWishListOfUser);
+
+
 
 //coupon 
 router.post('/createCoupon', coupon_controller.createCoupon);
