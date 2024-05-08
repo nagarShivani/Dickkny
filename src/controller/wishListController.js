@@ -37,4 +37,25 @@ exports.addToWishList = async (req, res) => {
     }
   }
   
+  exports.removeFromWishList = async (req, res) => {
+    try {
+      const { userId, productId } = req.body;
+      let cart = await WishList.findOne({ userId });
+      if (!cart) {
+        return res.status(404).json({ message: "wishlist not found" });
+      }
+      const itemIndex = cart.items.findIndex(
+        (item) => String(item.productId) === productId
+      );
+      if (itemIndex === -1) {
+        return res.status(404).json({ message: "wishlist not found" });
+      }
+      cart.items.splice(itemIndex, 1);
+      await cart.save();
+      res.status(200).json({ message: "removed from wishlist", cart });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  };
   

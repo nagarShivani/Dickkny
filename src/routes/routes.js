@@ -37,6 +37,8 @@ router.post("/updateCart",cart_controller.updateCart);
 //wishlist
 router.post("/addToWishList",wishlist_controller.addToWishList);
 router.get("/getWishListOfUser/:userId",wishlist_controller.getWishListOfUser);
+router.post("/removeFromWishList",wishlist_controller.removeFromWishList);
+
 
 
 
