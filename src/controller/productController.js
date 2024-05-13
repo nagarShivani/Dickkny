@@ -4,6 +4,7 @@ exports.addProduct = async (req, res) => {
   try {
     const {
       userId,
+      categoryId,
       name,
       price,
       image,
@@ -15,6 +16,7 @@ exports.addProduct = async (req, res) => {
 
     const newproduct= new product({
       userId,
+      categoryId,
       name,
         price,
         image,
@@ -33,7 +35,7 @@ exports.addProduct = async (req, res) => {
 };
 exports.getAllProduct = async (req, res) => {
   try {
-    const getAllProduct = await product.find();
+    const getAllProduct = await product.find().populate('categoryId');
     res.status(200)
       .json({ message: "Product List fetched successfully", data: getAllProduct });
   } catch (err) {
