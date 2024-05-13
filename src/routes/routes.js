@@ -8,6 +8,7 @@ const cart_controller=require("../controller/cartController");
 const wishlist_controller=require("../controller/wishListController");
 const coupon_controller=require("../controller/couponController");
 const order_controller=require("../controller/orderController");
+const billing_controller=require("../controller/billingController");
 
 //user Routes
 router.post("/signup", user_controller.signup);
@@ -40,7 +41,8 @@ router.get("/getWishListOfUser/:userId",wishlist_controller.getWishListOfUser);
 router.post("/removeFromWishList",wishlist_controller.removeFromWishList);
 
 
-
+//billing
+router.post('/payBill', billing_controller.payBill);
 
 //coupon 
 router.post('/createCoupon', coupon_controller.createCoupon);
