@@ -16,6 +16,7 @@ router.post("/login", user_controller.login);
 router.post("/forgot",user_controller.forgot);
 router.post("/reset/:id/:token",user_controller.reset);
 router.post("/ChangePassword",user_controller.ChangePassword)
+router.put("/updateUserDetails",user_controller.updateUserDetails)
 
 //Department Routes
 router.post("/addDepartment",department_controller.addDepartment);

@@ -87,6 +87,44 @@ exports.ChangePassword = async (req, res) => {
   }
 };
 
+exports.updateUserDetails = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    // Find the user document by userId
+    const user = await UsersModel.findById(userId);
+
+    if (!user) {
+      // If user with the given userId is not found, return a 404 Not Found error
+      return res.status(404).json({ success: false, error: 'User not found' });
+    }
+
+    // Update user details with specific fields from req.body
+    user.firstName = req.body.firstName;
+    user.lastName = req.body.lastName;
+    user.companyName = req.body.companyName || null; // Optional field
+    user.address.country = req.body.country;
+    user.address.streetAddress = req.body.streetAddress;
+    user.address.houseNumber = req.body.houseNumber;
+    user.address.apartment = req.body.apartment || null; // Optional field
+    user.address.city = req.body.city;
+    user.address.state = req.body.state;
+    user.address.postcode = req.body.postcode;
+    user.phone = req.body.phone;
+    user.email = req.body.email;
+
+    // Save the updated user document
+    await user.save();
+
+    // Send success response with updated user details
+    res.status(200).json({ success: true, message: 'User details updated successfully', user });
+  } catch (err) {
+    console.error(err);
+    // Send error response with appropriate status code
+    res.status(500).json({ success: false, error: 'Internal server error' });
+  }
+};
+
 
 
 
