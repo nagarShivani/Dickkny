@@ -123,8 +123,19 @@ exports.updateUserDetails = async (req, res) => {
   }
 };
 
-
-
+exports.getUserDetailById = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const user = await UsersModel.findById(userId);
+    if(!user){
+      return res.status(404).json({ success: false, error: 'User not found' });
+    }
+    res.status(200).json({ success: true, user });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, error: 'Internal server error' });
+  }
+};
 
 exports.forgot = async (req, res) => {
   try {

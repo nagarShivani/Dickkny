@@ -2,13 +2,13 @@ const express = require("express");
 const router = express.Router();
 const auth_Middleware = require("../controller/Authmiddleware/authmiddleware");
 const user_controller = require("../controller/usercontroller");
-const department_controller=require("../controller/Departmentcontroller");
 const product_controller=require("../controller/productController");
 const cart_controller=require("../controller/cartController");
 const wishlist_controller=require("../controller/wishListController");
 const coupon_controller=require("../controller/couponController");
 const order_controller=require("../controller/orderController");
 const billing_controller=require("../controller/billingController");
+const blog_controller=require("../controller/blogcontroller");
 
 //user Routes
 router.post("/signup", user_controller.signup);
@@ -17,13 +17,14 @@ router.post("/forgot",user_controller.forgot);
 router.post("/reset/:id/:token",user_controller.reset);
 router.post("/ChangePassword",user_controller.ChangePassword);
 router.put("/updateUserDetails/:userId",user_controller.updateUserDetails);
+router.get("/getUserDetailById/:userId",user_controller.getUserDetailById);
 
-//Department Routes
-router.post("/addDepartment",department_controller.addDepartment);
-router.get("/getAllDepartment",department_controller.getAllDepartment);
-router.put("/updateDepartment/:id",department_controller.updateDepartment);
-router.delete("/deleteDepartment/:id",department_controller.deleteDepartment);
-router.get("/getAllDepartmentById/:id",department_controller.getAllDepartmentById);
+//Blog Routes
+router.post("/addBlog",blog_controller.addBlog);
+router.get("/getAllBlog",blog_controller.getAllBlog);
+router.put("/updateBlog/:id",blog_controller.updateBlog);
+router.delete("/deleteBlog/:id",blog_controller.deleteBlog);
+router.get("/getAllBlogById/:id",blog_controller.getAllBlogById);
 
 //Product Routes
 router.post("/addProduct",product_controller.addProduct);
