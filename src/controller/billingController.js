@@ -7,13 +7,14 @@ function generateOrderId() {
 }
 exports.payBill = async (req, res) => {
     try {
-        const { productId, userId } = req.body;
+        const { productId, userId,amount } = req.body;
         const orderId = generateOrderId(); 
 
         const billing = new Billing({
             productId,
             userId,
             orderId,
+            amount
         });
 
         await billing.save();
@@ -24,11 +25,11 @@ exports.payBill = async (req, res) => {
                 productId,
                 userId,
                 orderId,
-                status: 'pending'
+                status: 'completed'
             }
         });
     } catch (err) {
         console.error(err);
-        res.status(500).json({ success: false, error: 'Internal server error' });
+        res.status(500).json({ success: false, error: 'Internal server error',error:err });
     }
 };
