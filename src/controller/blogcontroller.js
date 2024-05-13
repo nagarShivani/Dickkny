@@ -4,18 +4,20 @@ exports.addBlog = async (req, res) => {
   try {
     const {
       title,
-      employeeId,
+      image,
+      description
      
     } = req.body;
 
-    const newdesignation= new Blog({
+    const newBlog= new Blog({
         title,
-        employeeId,
+        image,
+        description
     });
 
-    await newdesignation.save();
+    await newBlog.save();
 
-    res.status(201).json({ message: "Blog added successfully", task: newdesignation });
+    res.status(201).json({ message: "Blog added successfully", task: newBlog });
   } catch (err) {
     console.error("Error adding task:", err);
     res.status(500).json({ error: "Failed to add Blog" });
