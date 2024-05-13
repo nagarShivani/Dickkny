@@ -103,16 +103,14 @@ exports.updateUserDetails = async (req, res) => {
     user.firstName = req.body.firstName;
     user.lastName = req.body.lastName;
     user.companyName = req.body.companyName || null; // Optional field
-    user.address.country = req.body.country;
-    user.address.streetAddress = req.body.streetAddress;
-    user.address.houseNumber = req.body.houseNumber;
-    user.address.apartment = req.body.apartment || null; // Optional field
-    user.address.city = req.body.city;
-    user.address.state = req.body.state;
-    user.address.postcode = req.body.postcode;
+    user.country = req.body.country;
+    user.streetAddress = req.body.streetAddress;
+    user.houseNumber = req.body.houseNumber;
+    user.apartment = req.body.apartment || null; // Optional field
+    user.city = req.body.city;
+    user.state = req.body.state;
+    user.postcode = req.body.postcode;
     user.phone = req.body.phone;
-    user.email = req.body.email;
-
     // Save the updated user document
     await user.save();
 
