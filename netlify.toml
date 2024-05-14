@@ -1,0 +1,7 @@
+[build]
+  base = "app"                  # Base directory for the build process
+  functions = "functions"       # Directory for Netlify Functions
+  publish = "public"            # Directory to publish
+
+[build.environment]
+  NODE_VERSION = "16.15.0"      # Specify the Node.js version
