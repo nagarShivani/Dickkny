@@ -22,7 +22,7 @@ exports.signup = async (req, res) => {
     });
 
     const savedUser = await newUser.save();
-    res.status(201).json({ loginid: savedUser._id, username: savedUser.email });
+    res.status(201).json({ loginid: savedUser._id, username: savedUser.email,message:'Registered Successfully' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal server error" });
