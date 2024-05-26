@@ -5,17 +5,17 @@ const mongoose = require('mongoose');
 const UsersSchema = new mongoose.Schema({
   email: { type: String, required: true },
   password: { type: String },
-  firstName: { type: String, required: true },
-  lastName: { type: String, required: true },
+  firstName: { type: String },
+  lastName: { type: String },
   companyName: { type: String },
-  country: { type: String, required: true },
-  streetAddress: { type: String, required: true },
-  houseNumber: { type: String, required: true },
+  country: { type: String },
+  streetAddress: { type: String },
+  houseNumber: { type: String },
   apartment: { type: String }, // Optional field
-  city: { type: String, required: true },
-  state: { type: String, required: true },
-  postcode: { type: String, required: true },
-    phone: { type: String, required: true },
+  city: { type: String },
+  state: { type: String },
+  postcode: { type: String },
+    phone: { type: String },
 },{timestamps:true} );
 
 module.exports = mongoose.model('Users', UsersSchema);
