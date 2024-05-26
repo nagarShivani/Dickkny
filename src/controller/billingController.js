@@ -33,3 +33,17 @@ exports.payBill = async (req, res) => {
         res.status(500).json({ success: false, error: 'Internal server error',error:err });
     }
 };
+
+exports.getAllBills = async (req, res) => {
+    try {
+      const bills = await Billing.find().populate('productId').populate('userId');
+      if(!bills) {
+        return res.status(404).json({ error: 'No Bills found' });
+      }
+  
+      res.status(200).json({ bills });
+    } catch (error) {
+      console.error('Error fetching bills:', error);
+      res.status(500).json({ error: 'Failed to fetch bills' });
+    }
+  };

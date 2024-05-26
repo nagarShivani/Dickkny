@@ -33,6 +33,48 @@ exports.addProduct = async (req, res) => {
     res.status(500).json({ error: "Failed to add Product" });
   }
 };
+
+
+exports.updateProduct = async (req, res) => {
+  try {
+    const { id: productId } = req.params; // Extract productId from URL parameters
+    const {
+      userId,
+      categoryId,
+      name,
+      price,
+      image,
+      description,
+      color,
+      size,
+    } = req.body;
+
+    const updatedProduct = await product.findByIdAndUpdate(
+      productId,
+      {
+        userId,
+        categoryId,
+        name,
+        price,
+        image,
+        description,
+        color,
+        size,
+      },
+      { new: true, runValidators: true } // Return the updated document and run validation
+    );
+
+    if (!updatedProduct) {
+      return res.status(404).json({ error: "Product not found" });
+    }
+
+    res.status(200).json({ message: "Product updated successfully", data: updatedProduct });
+  } catch (err) {
+    console.error("Error updating product:", err);
+    res.status(500).json({ error: "Failed to update product" });
+  }
+};
+
 exports.getAllProduct = async (req, res) => {
   try {
     const getAllProduct = await product.find().populate('categoryId');
@@ -60,6 +102,18 @@ exports.getAllProductsById = async (req, res) => {
   }
 };
   
+exports.deleteProduct = async (req, res) => {
+  try {
+    const deletedproduct = await product.findByIdAndDelete(req.params.id);
+    if (!deletedproduct) {
+      return res.status(404).json({ error: "Data not found" });
+    }
+    res.status(200).json({ message: "Data deleted successfully" });
+  } catch (err) {
+    console.error("Error deleting prpduct:", err);
+    res.status(500).json({ error: "Failed to delete product" });
+  }
+};
 
 
 

@@ -19,6 +19,7 @@ router.post("/reset/:id/:token",user_controller.reset);
 router.post("/ChangePassword",user_controller.ChangePassword);
 router.put("/updateUserDetails/:userId",user_controller.updateUserDetails);
 router.get("/getUserDetailById/:userId",user_controller.getUserDetailById);
+router.get("/getAllUsers",user_controller.getAllUsers);
 
 //Blog Routes
 router.post("/addBlog",blog_controller.addBlog);
@@ -36,8 +37,10 @@ router.get("/getAllCategoryById/:id",category_controller.getAllCategoryById);
 
 //Product Routes
 router.post("/addProduct",product_controller.addProduct);
+router.put("/updateProduct/:id",product_controller.updateProduct);
 router.get("/getAllProduct",product_controller.getAllProduct);
 router.get("/getAllProductsById/:id",product_controller.getAllProductsById);
+router.delete("/deleteProduct/:id",product_controller.deleteProduct);
 
 //Product Cart
 router.post("/addTocart",cart_controller.addTocart);
@@ -53,6 +56,7 @@ router.post("/removeFromWishList",wishlist_controller.removeFromWishList);
 
 //billing
 router.post('/payBill', billing_controller.payBill);
+router.get('/getAllBills', billing_controller.getAllBills);
 
 //coupon 
 router.post('/createCoupon', coupon_controller.createCoupon);
@@ -64,5 +68,6 @@ router.delete('/deleteCoupon/:id', coupon_controller.deleteCoupon);
 
 //orders
 router.get('/getMyOrders', order_controller.getMyOrders);
+router.get('/getAllOrders', order_controller.getAllOrders);
 
 module.exports = router;
