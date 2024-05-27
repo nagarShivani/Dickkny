@@ -39,6 +39,7 @@ router.get("/getAllCategoryById/:id",category_controller.getAllCategoryById);
 router.post("/addProduct",product_controller.addProduct);
 router.put("/updateProduct/:id",product_controller.updateProduct);
 router.get("/getAllProduct",product_controller.getAllProduct);
+router.post("/getProductByCategoryId",product_controller.getProductByCategoryId);
 router.get("/getAllProductsById/:id",product_controller.getAllProductsById);
 router.delete("/deleteProduct/:id",product_controller.deleteProduct);
 
