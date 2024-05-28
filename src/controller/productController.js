@@ -90,6 +90,35 @@ exports.getAllProduct = async (req, res) => {
   }
 };
 
+exports.getAllProductApiforFilter = async (req, res) => {
+  try {
+    const { price_min, price_max, color, size } = req.query;
+    let filter = {};
+    if (price_min) {
+      filter.price = { ...filter.price, $gte: parseFloat(price_min) };
+    }
+    if (price_max) {
+      filter.price = { ...filter.price, $lte: parseFloat(price_max) };
+    }
+    if (color) {
+      filter.color = color;
+    }
+    if (size) {
+      filter.size = size;
+    }
+    const getAllProduct = await product.find(filter);
+    res.status(200).json({
+      message: "Product List fetched successfully",
+      data: getAllProduct
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+
+
 exports.getProductByCategoryId = async (req, res) => {
   try {
 
