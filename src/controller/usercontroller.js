@@ -91,35 +91,25 @@ exports.ChangePassword = async (req, res) => {
 exports.updateUserDetails = async (req, res) => {
   try {
     const { userId } = req.params;
-
-    // Find the user document by userId
     const user = await UsersModel.findById(userId);
-
     if (!user) {
-      // If user with the given userId is not found, return a 404 Not Found error
       return res.status(404).json({ success: false, error: 'User not found' });
     }
-
-    // Update user details with specific fields from req.body
     user.firstName = req.body.firstName;
     user.lastName = req.body.lastName;
     user.companyName = req.body.companyName || null; // Optional field
     user.country = req.body.country;
     user.streetAddress = req.body.streetAddress;
     user.houseNumber = req.body.houseNumber;
-    user.apartment = req.body.apartment || null; // Optional field
+    user.apartment = req.body.apartment || null; 
     user.city = req.body.city;
     user.state = req.body.state;
     user.postcode = req.body.postcode;
     user.phone = req.body.phone;
-    // Save the updated user document
     await user.save();
-
-    // Send success response with updated user details
     res.status(200).json({ success: true, message: 'User details updated successfully', user });
   } catch (err) {
     console.error(err);
-    // Send error response with appropriate status code
     res.status(500).json({ success: false, error: 'Internal server error' });
   }
 };
@@ -219,3 +209,66 @@ exports.reset = async (req, res) => {
     }
   });
 };
+
+
+exports.addAddress = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const user = await UsersModel.findById(userId);
+    if (!user) {
+      return res.status(404).json({ success: false, error: 'User not found' });
+    }
+
+    const newAddress = {
+      streetAddress: req.body.streetAddress,
+      houseNumber: req.body.houseNumber,
+      apartment: req.body.apartment || null,
+      city: req.body.city,
+      state: req.body.state,
+      postcode: req.body.postcode,
+      country: req.body.country,
+    };
+
+    user.multipleAddressArray.push(newAddress);
+
+    await user.save();
+    res.status(200).json({ success: true, message: 'Address added successfully', user });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, error: 'Internal server error' });
+  }
+};
+
+exports.updateAddress = async (req, res) => {
+  try {
+    const { userId, addressId } = req.params;
+    const user = await UsersModel.findById(userId);
+    if (!user) {
+      return res.status(404).json({ success: false, error: 'User not found' });
+    }
+
+    const addressIndex = user.multipleAddressArray.findIndex(address => address._id.toString() === addressId);
+    if (addressIndex === -1) {
+      return res.status(404).json({ success: false, error: 'Address not found' });
+    }
+
+    const updatedAddress = {
+      streetAddress: req.body.streetAddress,
+      houseNumber: req.body.houseNumber,
+      apartment: req.body.apartment || null,
+      city: req.body.city,
+      state: req.body.state,
+      postcode: req.body.postcode,
+      country: req.body.country,
+    };
+
+    user.multipleAddressArray[addressIndex] = { ...user.multipleAddressArray[addressIndex]._doc, ...updatedAddress };
+
+    await user.save();
+    res.status(200).json({ success: true, message: 'Address updated successfully', user });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, error: 'Internal server error' });
+  }
+};
+

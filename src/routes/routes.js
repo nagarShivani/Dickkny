@@ -23,6 +23,9 @@ router.post("/ChangePassword",user_controller.ChangePassword);
 router.put("/updateUserDetails/:userId",user_controller.updateUserDetails);
 router.get("/getUserDetailById/:userId",user_controller.getUserDetailById);
 router.get("/getAllUsers",user_controller.getAllUsers);
+router.post("/addAddress/:userId",user_controller.addAddress);
+router.put("/updateAddress/:userId/:addressId",user_controller.updateAddress);
+
 
 //Blog Routes
 router.post("/addBlog",blog_controller.addBlog);
@@ -46,7 +49,7 @@ router.put("/updateEnquiry/:id",enquiry_controller.updateEnquiry);
 router.delete("/deleteEnquiry/:id",enquiry_controller.deleteEnquiry);
 router.get("/getAllEnquiryById/:id",enquiry_controller.getAllEnquiryById);
 
-//Enquiry Routes
+//getinTouch Routes
 router.post("/addgetInTouch",getInTouch_controller.addgetInTouch);
 router.get("/getAllgetInTouch",getInTouch_controller.getAllgetInTouch);
 router.put("/updategetInTouch/:id",getInTouch_controller.updategetInTouch);
