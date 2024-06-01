@@ -11,6 +11,7 @@ const billing_controller=require("../controller/billingController");
 const blog_controller=require("../controller/blogcontroller");
 const brand_controller=require("../controller/brandController");
 const enquiry_controller=require("../controller/enquiryController");
+const getInTouch_controller=require("../controller/getintouchController");
 const category_controller=require("../controller/categoryController");
 
 //user Routes
@@ -44,6 +45,13 @@ router.get("/getAllEnquiry",enquiry_controller.getAllEnquiry);
 router.put("/updateEnquiry/:id",enquiry_controller.updateEnquiry);
 router.delete("/deleteEnquiry/:id",enquiry_controller.deleteEnquiry);
 router.get("/getAllEnquiryById/:id",enquiry_controller.getAllEnquiryById);
+
+//Enquiry Routes
+router.post("/addgetInTouch",getInTouch_controller.addgetInTouch);
+router.get("/getAllgetInTouch",getInTouch_controller.getAllgetInTouch);
+router.put("/updategetInTouch/:id",getInTouch_controller.updategetInTouch);
+router.delete("/deletegetInTouch/:id",getInTouch_controller.deletegetInTouch);
+router.get("/getAllgetInTouchById/:id",getInTouch_controller.getAllgetInTouchById);
 
 //Category Routes
 router.post("/addCategory",category_controller.addCategory);
