@@ -9,6 +9,7 @@ const coupon_controller=require("../controller/couponController");
 const order_controller=require("../controller/orderController");
 const billing_controller=require("../controller/billingController");
 const blog_controller=require("../controller/blogcontroller");
+const brand_controller=require("../controller/brandController");
 const category_controller=require("../controller/categoryController");
 
 //user Routes
@@ -27,6 +28,13 @@ router.get("/getAllBlog",blog_controller.getAllBlog);
 router.put("/updateBlog/:id",blog_controller.updateBlog);
 router.delete("/deleteBlog/:id",blog_controller.deleteBlog);
 router.get("/getAllBlogById/:id",blog_controller.getAllBlogById);
+
+//Brand Routes
+router.post("/addBrand",brand_controller.addBrand);
+router.get("/getAllBrand",brand_controller.getAllBrand);
+router.put("/updateBrand/:id",brand_controller.updateBrand);
+router.delete("/deleteBrand/:id",brand_controller.deleteBrand);
+router.get("/getAllBrandById/:id",brand_controller.getAllBrandById);
 
 //Category Routes
 router.post("/addCategory",category_controller.addCategory);

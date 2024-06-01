@@ -4,6 +4,7 @@ exports.addBlog = async (req, res) => {
   try {
     const {
       title,
+      authorname,
       image,
       description
      
@@ -11,6 +12,8 @@ exports.addBlog = async (req, res) => {
 
     const newBlog= new Blog({
         title,
+      authorname,
+
         image,
         description
     });
@@ -35,7 +38,7 @@ exports.getAllBlog = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
-  
+
 
 exports.getAllBlogById = async (req, res) => {
   const Id = req.params.id;
@@ -83,15 +86,7 @@ exports.deleteBlog = async (req, res) => {
   }
 };
 
-exports.getAllBlog = async (req, res) => {
-  try {
-    const getAllBlogs = await Blog.find();
-    res.status(200).json({ message: "Blog List fetched successfully", data: getAllBlogs });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Internal server error" });
-  }
-};
+
 
 
 

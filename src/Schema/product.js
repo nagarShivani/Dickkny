@@ -5,6 +5,7 @@ const product = new mongoose.Schema({
   name: { type: String, required: true },
   userId: { type: mongoose.Schema.Types.ObjectId ,ref:"Users"},
   categoryId: { type: mongoose.Schema.Types.ObjectId ,ref:"Category"},
+  brandId: { type: mongoose.Schema.Types.ObjectId ,ref:"brand"},
   price:{type:String,required:true},
   salePrice:{type:String,required:true},
   description: { type: String },
