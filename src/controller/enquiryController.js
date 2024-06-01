@@ -1,31 +1,41 @@
-const Brand = require("../Schema/Brand");
+const Enquiry = require("../Schema/enquiry");
 
-exports.addBrand = async (req, res) => {
+exports.addEnquiry = async (req, res) => {
   try {
     const {
       name,
+      phone,
+      email,
+      quantity,
+      product,
+      message,
      
     } = req.body;
 
-    const newBrand= new Brand({
+    const newEnquiry= new Enquiry({
         name,
+        phone,
+        email,
+        quantity,
+        product,
+        message,
     });
 
-    await newBrand.save();
+    await newEnquiry.save();
 
-    res.status(201).json({ message: "Brand added successfully", data: newBrand });
+    res.status(201).json({ message: "Enquiry added successfully", data: newEnquiry });
   } catch (err) {
-    console.error("Error adding brand:", err);
-    res.status(500).json({ error: "Failed to add brand" });
+    console.error("Error adding Enquiry:", err);
+    res.status(500).json({ error: "Failed to add Enquiry" });
   }
 };
-exports.getAllBrand = async (req, res) => {
+exports.getAllEnquiry = async (req, res) => {
   try {
-    const getAllBrand = await Brand.find() ;
+    const getAllEnquiry = await Enquiry.find() ;
    
     res
       .status(200)
-      .json({ message: "brand List fetched successfully", data: getAllBrand });
+      .json({ message: "Enquiry List fetched successfully", data: getAllEnquiry });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Internal server error" });
@@ -33,27 +43,28 @@ exports.getAllBrand = async (req, res) => {
 };
 
 
-exports.getAllBrandById = async (req, res) => {
+exports.getAllEnquiryById = async (req, res) => {
   const Id = req.params.id;
 
   try {
-    const brand = await Brand.findById(Id);
-    if (!brand) {
+    const enquiry = await Enquiry.findById(Id);
+    if (!enquiry) {
       return res.status(404).json({ error: "Request not found" });
     }
 
-    res.status(200).json(brand);
+    res.status(200).json(enquiry);
   } catch (error) {
-    console.error("Error fetching Brand Request by ID:", error);
+    console.error("Error fetching enquiry Request by ID:", error);
     res.status(500).json({ error: "Failed to fetch user by ID" });
   }
 };
-exports.updateBrand = async (req, res) => {
+exports.updateEnquiry = async (req, res) => {
   try {
-    const { name} = req.body;
+    const { name,email} = req.body;
     const updatedEvent = await Brand.findByIdAndUpdate(
       req.params.id,
       { name},
+      { email},
       { new: true }
     );
     if (!updatedEvent) {
@@ -65,10 +76,10 @@ exports.updateBrand = async (req, res) => {
     res.status(500).json({ error: "Failed to update event" });
   }
 };
-exports.deleteBrand = async (req, res) => {
+exports.deleteEnquiry = async (req, res) => {
   try {
-    const deletedEvent = await Brand.findByIdAndDelete(req.params.id);
-    if (!deletedEvent) {
+    const deletedEnquiry = await Enquiry.findByIdAndDelete(req.params.id);
+    if (!deletedEnquiry) {
       return res.status(404).json({ error: "Data not found" });
     }
     res.status(200).json({ message: "Data deleted successfully" });

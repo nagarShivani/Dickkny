@@ -10,6 +10,7 @@ const order_controller=require("../controller/orderController");
 const billing_controller=require("../controller/billingController");
 const blog_controller=require("../controller/blogcontroller");
 const brand_controller=require("../controller/brandController");
+const enquiry_controller=require("../controller/enquiryController");
 const category_controller=require("../controller/categoryController");
 
 //user Routes
@@ -35,6 +36,14 @@ router.get("/getAllBrand",brand_controller.getAllBrand);
 router.put("/updateBrand/:id",brand_controller.updateBrand);
 router.delete("/deleteBrand/:id",brand_controller.deleteBrand);
 router.get("/getAllBrandById/:id",brand_controller.getAllBrandById);
+
+
+//Enquiry Routes
+router.post("/addEnquiry",enquiry_controller.addEnquiry);
+router.get("/getAllEnquiry",enquiry_controller.getAllEnquiry);
+router.put("/updateEnquiry/:id",enquiry_controller.updateEnquiry);
+router.delete("/deleteEnquiry/:id",enquiry_controller.deleteEnquiry);
+router.get("/getAllEnquiryById/:id",enquiry_controller.getAllEnquiryById);
 
 //Category Routes
 router.post("/addCategory",category_controller.addCategory);
