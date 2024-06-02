@@ -6,19 +6,17 @@ exports.addgetInTouch = async (req, res) => {
       name,
       phone,
       email,
-      quantity,
-      product,
       message,
+      subject
      
     } = req.body;
 
     const newgetInTouch= new getInTouch({
-        name,
-        phone,
-        email,
-        quantity,
-        product,
-        message,
+      name,
+      phone,
+      email,
+      message,
+      subject
     });
 
     await newgetInTouch.save();

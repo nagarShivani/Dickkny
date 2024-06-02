@@ -5,7 +5,7 @@ const enquiry = new mongoose.Schema({
   email: { type: String, required: true },
   quantity: { type: String, required: true },
   product: { type: String, required: true },
-  message: { type: String, required: true },
+  message: { type: String},
 },{timestamps:true});
 
 module.exports = mongoose.model("enquiry", enquiry);
