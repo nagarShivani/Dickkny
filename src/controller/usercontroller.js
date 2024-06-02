@@ -1,6 +1,5 @@
 const dotenv = require("dotenv");
 dotenv.config();
-const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const UsersModel = require("../Schema/userSchema");
@@ -271,4 +270,33 @@ exports.updateAddress = async (req, res) => {
     res.status(500).json({ success: false, error: 'Internal server error' });
   }
 };
+
+const transporter = nodemailer.createTransport({
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true,
+  auth: {
+    user: "viddeveloper101@gmail.com",
+    pass: "hnmc mhmo kjla czdv",
+  },
+});
+
+exports.sendEmail = async (req,res)=>{
+  const { email } = req.body;
+
+  const mailOptions = {
+    from: process.env.EMAIL_USER, // Your email
+    to: email,
+    subject: 'Test Email',
+    text: 'Hello, You have been subscribed to Dickkny',
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      return res.status(500).send(error.toString());
+    }
+    res.status(200).send('Email sent: ' + info.response);
+  });
+
+}
 

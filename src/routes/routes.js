@@ -25,6 +25,7 @@ router.get("/getUserDetailById/:userId",user_controller.getUserDetailById);
 router.get("/getAllUsers",user_controller.getAllUsers);
 router.post("/addAddress/:userId",user_controller.addAddress);
 router.put("/updateAddress/:userId/:addressId",user_controller.updateAddress);
+router.post("/sendEmail",user_controller.sendEmail);
 
 
 //Blog Routes
