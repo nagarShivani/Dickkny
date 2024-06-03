@@ -293,9 +293,9 @@ exports.sendEmail = async (req,res)=>{
 
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
-      return res.status(500).send(error.toString());
+      return res.status(500).json({error:'Some error occured'})
     }
-    res.status(200).send('Email sent: ' + info.response);
+    res.status(200).json({message:'Email Sent Successfully!'})
   });
 
 }
