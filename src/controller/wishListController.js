@@ -36,6 +36,8 @@ exports.addToWishList = async (req, res) => {
       res.status(500).json({ error: 'Internal server error' });
     }
   }
+
+  
   
   exports.removeFromWishList = async (req, res) => {
     try {

@@ -76,6 +76,7 @@ router.delete("/deleteProduct/:id",product_controller.deleteProduct);
 //Product Cart
 router.post("/addTocart",cart_controller.addTocart);
 router.get("/getCartOfUser/:userId",cart_controller.getCartOfUser);
+router.get("/getCountOfCartAndWishListOfUser/:userId",cart_controller.getCountOfCartAndWishListOfUser);
 router.post("/removeFromCart",cart_controller.removeFromCart);
 router.post("/updateCart",cart_controller.updateCart);
 

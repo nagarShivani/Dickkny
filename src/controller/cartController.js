@@ -1,4 +1,5 @@
 const Cart = require("../Schema/cart");
+const WishList = require("../Schema/wishlist");
 
 exports.addTocart = async (req, res) => {
   try {
@@ -48,6 +49,21 @@ exports.addTocart = async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 }
+
+exports.getCountOfCartAndWishListOfUser = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const cart = await Cart.findOne({ userId });
+    const wish = await WishList.findOne({ userId });
+
+  
+
+    res.json({cartLength:cart?.items?.length || 0,wishListLength:wish?.items?.length || 0});
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+}
   
     exports.removeFromCart = async (req, res) => {
   try {
@@ -92,4 +108,6 @@ exports.updateCart = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+
 
