@@ -14,7 +14,6 @@ const enquiry_controller=require("../controller/enquiryController");
 const Rating_controller=require("../controller/ratingController");
 const getInTouch_controller=require("../controller/getintouchController");
 const category_controller=require("../controller/categoryController");
-const Tags_controller=require("../controller/TagsController");
 
 //user Routes
 router.post("/signup", user_controller.signup);
@@ -74,12 +73,6 @@ router.delete("/deleteCategory/:id",category_controller.deleteCategory);
 router.get("/getAllCategoryById/:id",category_controller.getAllCategoryById);
 
 
-//Tags Routes
-router.post("/addTags",Tags_controller.addTags);
-router.get("/getAllTags",Tags_controller.getAllTags);
-router.put("/updateTags/:id",Tags_controller.updateTags);
-router.delete("/deleteTags/:id",Tags_controller.deleteTags);
-router.get("/getAllTagsById/:id",Tags_controller.getAllTagsById);
 
 //Product Routes
 router.post("/addProduct",product_controller.addProduct);
