@@ -4,10 +4,11 @@ exports.addCategory = async (req, res) => {
   try {
     const {
       name,
+      image
     } = req.body;
 
     const newCategory= new Category({
-        name,
+        name,image
     });
 
     await newCategory.save();
@@ -49,11 +50,12 @@ exports.getAllCategoryById = async (req, res) => {
 };
 exports.updateCategory = async (req, res) => {
   try {
-    const { name } = req.body;
+    const { name,image } = req.body;
 
     const updatedCategory = await Category.findByIdAndUpdate(
       req.params.id,
       { name},
+      { image},
       { new :true},
     );
     if (!updatedCategory) {

@@ -7,6 +7,7 @@ exports.addProduct = async (req, res) => {
       categoryId,
       brandId,
       name,
+      tag,
       price,
       salePrice,
       image,
@@ -18,11 +19,11 @@ exports.addProduct = async (req, res) => {
     } = req.body;
 
     const newproduct= new product({
-      userId,
-      categoryId,
-      brandId,
-
-      name,
+        userId,
+        categoryId,
+        brandId,
+        name,
+      tag,
         price,
         salePrice,
         image,
@@ -51,6 +52,8 @@ exports.updateProduct = async (req, res) => {
       brandId,
       name,
       price,
+      tag,
+
       salePrice,
       image,
       multipleimage,
@@ -65,6 +68,8 @@ exports.updateProduct = async (req, res) => {
         userId,
         categoryId,
       brandId,
+      tag,
+
         name,
         salePrice,
         price,
