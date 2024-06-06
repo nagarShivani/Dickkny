@@ -11,8 +11,10 @@ const billing_controller=require("../controller/billingController");
 const blog_controller=require("../controller/blogcontroller");
 const brand_controller=require("../controller/brandController");
 const enquiry_controller=require("../controller/enquiryController");
+const Rating_controller=require("../controller/ratingController");
 const getInTouch_controller=require("../controller/getintouchController");
 const category_controller=require("../controller/categoryController");
+const Tags_controller=require("../controller/TagsController");
 
 //user Routes
 router.post("/signup", user_controller.signup);
@@ -50,6 +52,13 @@ router.put("/updateEnquiry/:id",enquiry_controller.updateEnquiry);
 router.delete("/deleteEnquiry/:id",enquiry_controller.deleteEnquiry);
 router.get("/getAllEnquiryById/:id",enquiry_controller.getAllEnquiryById);
 
+//Rating Routes
+router.post("/addRating",Rating_controller.addRating);
+router.get("/getAllRating",Rating_controller.getAllRating);
+router.put("/updateRating/:id",Rating_controller.updateRating);
+router.delete("/deleteRating/:id",Rating_controller.deleteRating);
+router.get("/getAllRatingById/:id",Rating_controller.getAllRatingById);
+
 //getinTouch Routes
 router.post("/addgetInTouch",getInTouch_controller.addgetInTouch);
 router.get("/getAllgetInTouch",getInTouch_controller.getAllgetInTouch);
@@ -63,6 +72,14 @@ router.get("/getAllCategory",category_controller.getAllCategory);
 router.put("/updateCategory/:id",category_controller.updateCategory);
 router.delete("/deleteCategory/:id",category_controller.deleteCategory);
 router.get("/getAllCategoryById/:id",category_controller.getAllCategoryById);
+
+
+//Tags Routes
+router.post("/addTags",Tags_controller.addTags);
+router.get("/getAllTags",Tags_controller.getAllTags);
+router.put("/updateTags/:id",Tags_controller.updateTags);
+router.delete("/deleteTags/:id",Tags_controller.deleteTags);
+router.get("/getAllTagsById/:id",Tags_controller.getAllTagsById);
 
 //Product Routes
 router.post("/addProduct",product_controller.addProduct);
