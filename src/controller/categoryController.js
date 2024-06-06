@@ -51,6 +51,7 @@ exports.getAllCategoryById = async (req, res) => {
 exports.updateCategory = async (req, res) => {
   try {
     const { name,image } = req.body;
+    
 
     const updatedCategory = await Category.findByIdAndUpdate(
       req.params.id,
