@@ -93,9 +93,32 @@ exports.updateProduct = async (req, res) => {
   }
 };
 
+
+exports.getProductByCategoryId = async (req, res) => {
+  try {
+    const { categoryId } = req.body; // Ensure this is a single category ID or an array of IDs
+
+    const productByCategory = await product.find({ categoryId: { $in: [categoryId] } });
+    if (!productByCategory || productByCategory.length === 0) {
+      return res.status(404).json({ error: "Product not found" });
+    }
+    res.status(200).json(productByCategory);
+    console.log(productByCategory);
+  } catch (error) {
+    console.error("Error fetching product by category:", error);
+    res.status(500).json({ error: "Failed to fetch product by category" });
+  }
+};
+
+
+
 exports.getAllProduct = async (req, res) => {
   try {
-    const getAllProduct = await product.find().populate('categoryId').populate('brandId');
+    const getAllProduct = await product.find().
+    populate('categoryId').
+    populate('brandId').
+    populate('color').
+    populate('size');
     res.status(200)
       .json({ message: "Product List fetched successfully", data: getAllProduct });
   } catch (err) {
@@ -132,22 +155,6 @@ exports.getAllProductApiforFilter = async (req, res) => {
 };
 
 
-
-exports.getProductByCategoryId = async (req, res) => {
-  try {
-
-    const productByCategory = await product.find({ categoryId: req.body.categoryId });
-    if (!productByCategory) {
-      return res.status(404).json({ error: "Product not found" });
-    }
-    res.status(200).json(productByCategory);
-    console.log(productByCategory);
-  }
-  catch (error) {
-    console.error("Error fetching product by category:", error);
-    res.status(500).json({ error: "Failed to fetch product by category" });
-  }
-}
 
 exports.getAllProductsById = async (req, res) => {
   const productId = req.params.id;

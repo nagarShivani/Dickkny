@@ -10,6 +10,8 @@ const order_controller=require("../controller/orderController");
 const billing_controller=require("../controller/billingController");
 const blog_controller=require("../controller/blogcontroller");
 const brand_controller=require("../controller/brandController");
+const size_controller=require("../controller/sizeController");
+const color_controller=require("../controller/colorController");
 const enquiry_controller=require("../controller/enquiryController");
 const Rating_controller=require("../controller/ratingController");
 const getInTouch_controller=require("../controller/getintouchController");
@@ -42,6 +44,20 @@ router.get("/getAllBrand",brand_controller.getAllBrand);
 router.put("/updateBrand/:id",brand_controller.updateBrand);
 router.delete("/deleteBrand/:id",brand_controller.deleteBrand);
 router.get("/getAllBrandById/:id",brand_controller.getAllBrandById);
+
+//color Routes
+router.post("/addcolor",color_controller.addcolor);
+router.get("/getAllcolor",color_controller.getAllcolor);
+router.put("/updatecolor/:id",color_controller.updatecolor);
+router.delete("/deletecolor/:id",color_controller.deletecolor);
+router.get("/getAllcolorById/:id",color_controller.getAllcolorById);
+
+//size Routes
+router.post("/addsize",size_controller.addsize);
+router.get("/getAllsize",size_controller.getAllsize);
+router.put("/updatesize/:id",size_controller.updatesize);
+router.delete("/deletesize/:id",size_controller.deletesize);
+router.get("/getAllsizeById/:id",size_controller.getAllsizeById);
 
 
 //Enquiry Routes

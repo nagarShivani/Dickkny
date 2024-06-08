@@ -4,7 +4,7 @@ const product = new mongoose.Schema({
   
   name: { type: String, required: true },
   userId: { type: mongoose.Schema.Types.ObjectId ,ref:"Users"},
-  categoryId: { type: mongoose.Schema.Types.ObjectId ,ref:"Category"},
+  categoryId: [{ type: mongoose.Schema.Types.ObjectId, ref: "Category" }],
   brandId: { type: mongoose.Schema.Types.ObjectId ,ref:"brand"},
   price:{type:String,required:true},
   salePrice:{type:String,required:true},
@@ -12,8 +12,8 @@ const product = new mongoose.Schema({
   tag: { type: String },
   image: { type: String },
   multipleimage: { type: Array },
-  size: { type: String },
-  color: { type: String },
+  size:  [{ type: mongoose.Schema.Types.ObjectId, ref: "size" }],
+  color:[{ type: mongoose.Schema.Types.ObjectId, ref: "color" }],
 
 },{timestamps:true});
 
