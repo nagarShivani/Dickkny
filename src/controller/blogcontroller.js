@@ -57,11 +57,10 @@ exports.getAllBlogById = async (req, res) => {
 };
 exports.updateBlog = async (req, res) => {
   try {
-    const { title,employeeId} = req.body;
+    const { title,description,authorname,image} = req.body;
     const updatedEvent = await Blog.findByIdAndUpdate(
       req.params.id,
-      { title},
-      {employeeId},
+      { title,description,image,authorname},
       { new: true }
     );
     if (!updatedEvent) {

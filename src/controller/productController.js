@@ -160,7 +160,8 @@ exports.getAllProductsById = async (req, res) => {
   const productId = req.params.id;
 
   try {
-    const pro = await product.findById(productId);
+    const pro = await product.findById(productId).populate('categoryId').populate('brandId').
+    populate('size').populate('color');
     if (!pro) {
       return res.status(404).json({ error: "Request not found" });
     }
@@ -184,6 +185,14 @@ exports.deleteProduct = async (req, res) => {
     res.status(500).json({ error: "Failed to delete product" });
   }
 };
+
+exports.searchProduct =async (req,res)=>{
+  try{
+
+  }catch(err){
+
+  }
+}
 
 
 
