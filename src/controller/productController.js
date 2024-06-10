@@ -104,9 +104,10 @@ exports.updateProduct = async (req, res) => {
 
 exports.getProductByCategoryId = async (req, res) => {
   try {
-    const { categoryId } = req.body; // Ensure this is a single category ID or an array of IDs
+    const { categoryId } = req.params; // Ensure this is a single category ID or an array of IDs
 
-    const productByCategory = await product.find({ categoryId: { $in: [categoryId] } });
+    const productByCategory = await product.find({ categoryId: { $in: [categoryId] } }).populate('size')
+    .populate('color');
     if (!productByCategory || productByCategory.length === 0) {
       return res.status(404).json({ error: "Product not found" });
     }

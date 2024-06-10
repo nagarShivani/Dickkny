@@ -96,7 +96,7 @@ router.put("/updateProduct/:id",product_controller.updateProduct);
 router.get("/getAllProduct",product_controller.getAllProduct);
 router.get("/getAllProductApiforFilter",product_controller.getAllProductApiforFilter);
 router.get("/searchProduct",product_controller.searchProduct);
-router.post("/getProductByCategoryId",product_controller.getProductByCategoryId);
+router.get("/getProductByCategoryId/:categoryId",product_controller.getProductByCategoryId);
 router.get("/getAllProductsById/:id",product_controller.getAllProductsById);
 router.delete("/deleteProduct/:id",product_controller.deleteProduct);
 
