@@ -1,4 +1,6 @@
 const product = require("../Schema/product");
+const Size = require("../Schema/size");
+const Color = require("../Schema/color");
 
 exports.addProduct = async (req, res) => {
   try {
@@ -10,6 +12,8 @@ exports.addProduct = async (req, res) => {
       tag,
       price,
       salePrice,
+      productInformation,
+      additionalInformation,
       image,
       multipleimage,
       description,
@@ -23,7 +27,9 @@ exports.addProduct = async (req, res) => {
         categoryId,
         brandId,
         name,
-      tag,
+        tag,
+        productInformation,
+        additionalInformation,
         price,
         salePrice,
         image,
@@ -53,7 +59,8 @@ exports.updateProduct = async (req, res) => {
       name,
       price,
       tag,
-
+      productInformation,
+      additionalInformation,
       salePrice,
       image,
       multipleimage,
@@ -69,7 +76,8 @@ exports.updateProduct = async (req, res) => {
         categoryId,
       brandId,
       tag,
-
+      productInformation,
+      additionalInformation,
         name,
         salePrice,
         price,
@@ -111,42 +119,100 @@ exports.getProductByCategoryId = async (req, res) => {
 };
 
 
-
 exports.getAllProduct = async (req, res) => {
   try {
-    const getAllProduct = await product.find().
-    populate('categoryId').
-    populate('brandId').
-    populate('color').
-    populate('size');
-    res.status(200)
-      .json({ message: "Product List fetched successfully", data: getAllProduct });
+    // Get pagination parameters from query, set default values if not provided
+    const page = parseInt(req.query.page) || 1; // Default to page 1
+    const limit = parseInt(req.query.limit) || 10; // Default to 10 items per page
+
+    // Calculate the number of documents to skip
+    const skip = (page - 1) * limit;
+
+    // Get the total count of documents
+    const totalProducts = await product.countDocuments();
+
+    // Find products with pagination
+    const getAllProduct = await product.find()
+      .populate('categoryId')
+      .populate('brandId')
+      .populate('color')
+      .populate('size')
+      .skip(skip)
+      .limit(limit);
+
+    res.status(200).json({
+      message: "Product List fetched successfully",
+      data: getAllProduct,
+      pagination: {
+        totalProducts,
+        currentPage: page,
+        totalPages: Math.ceil(totalProducts / limit)
+      }
+    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Internal server error" });
   }
+
 };
 
 exports.getAllProductApiforFilter = async (req, res) => {
   try {
-    const { price_min, price_max, color, size } = req.query;
+    const { price_min, price_max, color, size, page = 1, limit = 10 } = req.query;
+
+    // Construct filter object
     let filter = {};
-    if (price_min) {
-      filter.price = { ...filter.price, $gte: parseFloat(price_min) };
+
+    // Handle price filter
+    if (price_min || price_max) {
+      filter.price = {};
+      if (price_min) {
+        filter.price.$gte = parseFloat(price_min);
+      }
+      if (price_max) {
+        filter.price.$lte = parseFloat(price_max);
+      }
     }
-    if (price_max) {
-      filter.price = { ...filter.price, $lte: parseFloat(price_max) };
-    }
+
+    // Handle color filter
     if (color) {
-      filter.color = color;
+      const colorNames = color.split(',').map(c => c.trim().replace(/"/g, ''));
+      const colorDocs = await Color.find({ color: { $in: colorNames } });
+      const colorIds = colorDocs.map(c => c._id);
+      filter.color = { $in: colorIds };
     }
+
+    // Handle size filter
     if (size) {
-      filter.size = size;
+      const sizeNames = size.split(',').map(s => s.trim().replace(/"/g, ''));
+      const sizeDocs = await Size.find({ size: { $in: sizeNames } });
+      const sizeIds = sizeDocs.map(s => s._id);
+      filter.size = { $in: sizeIds };
     }
-    const getAllProduct = await product.find(filter);
+
+    // Calculate pagination values
+    const skip = (parseInt(page) - 1) * parseInt(limit);
+
+    // Get the total count of filtered products
+    const totalProducts = await product.countDocuments(filter);
+
+    // Get the filtered products with pagination
+    const getAllProduct = await product.find(filter)
+      .populate('categoryId')
+      .populate('brandId')
+      .populate('color')
+      .populate('size')
+      .skip(skip)
+      .limit(parseInt(limit));
+
     res.status(200).json({
       message: "Product List fetched successfully",
-      data: getAllProduct
+      data: getAllProduct,
+      pagination: {
+        totalProducts: totalProducts,
+        currentPage: parseInt(page),
+        totalPages: Math.ceil(totalProducts / parseInt(limit))
+      }
     });
   } catch (err) {
     console.error(err);

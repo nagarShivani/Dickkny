@@ -10,6 +10,8 @@ const product = new mongoose.Schema({
   salePrice:{type:String,required:true},
   description: { type: String },
   tag: { type: String },
+  productInformation: { type: String },
+  additionalInformation: { type: String },
   image: { type: String },
   multipleimage: { type: Array },
   size:  [{ type: mongoose.Schema.Types.ObjectId, ref: "size" }],

@@ -34,7 +34,7 @@ exports.addTocart = async (req, res) => {
   }
 };
 
-  exports.getCartOfUser = async (req, res) => {
+exports.getCartOfUser = async (req, res) => {
   try {
     const userId = req.params.userId;
     const cart = await Cart.findOne({ userId }).populate('items.productId');
@@ -42,13 +42,13 @@ exports.addTocart = async (req, res) => {
     if (!cart) {
       return res.status(200).json({ error: 'Cart not found' });
     }
-
+    cart.items = cart.items.filter(item => item.productId !== null);
     res.json(cart);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Internal server error' });
   }
-}
+};
 
 exports.getCountOfCartAndWishListOfUser = async (req, res) => {
   try {
