@@ -3,7 +3,7 @@ const WishList = require("../Schema/wishlist");
 
 exports.addTocart = async (req, res) => {
   try {
-    const { userId, productId, quantity } = req.body;
+    const { userId, productId, quantity,size } = req.body;
     
     // Check if user already has a cart
     let cart = await Cart.findOne({ userId });
@@ -89,7 +89,7 @@ exports.getCountOfCartAndWishListOfUser = async (req, res) => {
 
 exports.updateCart = async (req, res) => {
   try {
-    const { userId, productId, quantity } = req.body;
+    const { userId, productId, quantity,size } = req.body;
     let cart = await Cart.findOne({ userId });
     if (!cart) {
       return res.status(404).json({ message: "Cart not found" });
