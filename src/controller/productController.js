@@ -112,7 +112,6 @@ exports.getProductByCategoryId = async (req, res) => {
       return res.status(404).json({ error: "Product not found" });
     }
     res.status(200).json(productByCategory);
-    console.log(productByCategory);
   } catch (error) {
     console.error("Error fetching product by category:", error);
     res.status(500).json({ error: "Failed to fetch product by category" });

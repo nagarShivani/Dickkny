@@ -23,7 +23,6 @@ exports.signup = async (req, res) => {
     const savedUser = await newUser.save();
     res.status(201).json({ loginid: savedUser._id, username: savedUser.email,message:'Registered Successfully' });
   } catch (error) {
-    console.error(error);
     res.status(500).json({ error: "Internal server error" });
   }
 };
@@ -48,7 +47,6 @@ exports.login = async (req, res) => {
       user,
     });
   } catch (err) {
-    console.error(err);
     res.status(500).json({ error: "Error logging in" });
   }
 };
@@ -67,7 +65,6 @@ exports.ChangePassword = async (req, res) => {
     }
 
     const isPasswordMatch = await bcrypt.compare(oldPassword, user.password);
-    console.log("Is password correct?", isPasswordMatch);
 
     if (!isPasswordMatch) {
       return res.status(401).json({ message: "Old password is incorrect!" });
@@ -82,7 +79,6 @@ exports.ChangePassword = async (req, res) => {
 
     res.status(200).json({ message: "Password changed successfully!" });
   } catch (error) {
-    console.error("Error changing password:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 };
@@ -179,7 +175,6 @@ exports.forgot = async (req, res) => {
         console.log("Error sending email:", error);
         return res.status(500).json({ message: "Failed to send reset email" });
       } else {
-        console.log("Reset email sent:", info.response);
         return res.json({ message: "Reset email sent successfully" });
       }
     });
