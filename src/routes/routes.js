@@ -99,6 +99,7 @@ router.get("/searchProduct",product_controller.searchProduct);
 router.get("/getProductByCategoryId/:categoryId",product_controller.getProductByCategoryId);
 router.get("/getAllProductsById/:id",product_controller.getAllProductsById);
 router.delete("/deleteProduct/:id",product_controller.deleteProduct);
+router.get("/getCatProdBrand",product_controller.getCatProdBrand);
 
 //Product Cart
 router.post("/addTocart",cart_controller.addTocart);

@@ -2,6 +2,7 @@ const product = require("../Schema/product");
 const Size = require("../Schema/size");
 const Color = require("../Schema/color");
 const Brand = require("../Schema/Brand");
+const Category = require("../Schema/category");
 
 exports.addProduct = async (req, res) => {
   try {
@@ -284,6 +285,17 @@ exports.searchProduct = async (req, res) => {
     res.status(500).json({ message: 'An error occurred while searching for products' });
   }
 };
+
+    exports.getCatProdBrand = async(req,res)=>{
+      try{
+        const brandArr = await Brand.find();
+        const CategoryArr = await Category.find();
+        const productArr =await product.find();
+        res.status(200).json({brand:brandArr,category:CategoryArr,product:productArr})
+      }catch(err){
+      res.status(500).json({ message: 'An error occurred' });
+      }
+    }
 
 
 
