@@ -272,11 +272,11 @@ exports.searchProduct = async (req, res) => {
       return matchesName || matchesBrand || matchesCategory;
     });
 
-    if (filteredProducts.length === 0) {
-      console.log('No products found matching the criteria');
-    } else {
-      console.log(`Found ${filteredProducts.length} products matching the criteria`);
-    }
+    // if (filteredProducts.length === 0) {
+    //   console.log('No products found matching the criteria');
+    // } else {
+    //   console.log(`Found ${filteredProducts.length} products matching the criteria`);
+    // }
 
     res.status(200).json(filteredProducts);
   } catch (err) {
