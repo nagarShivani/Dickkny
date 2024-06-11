@@ -1,6 +1,7 @@
 const product = require("../Schema/product");
 const Size = require("../Schema/size");
 const Color = require("../Schema/color");
+const Brand = require("../Schema/Brand");
 
 exports.addProduct = async (req, res) => {
   try {
@@ -252,15 +253,37 @@ exports.deleteProduct = async (req, res) => {
   }
 };
 
-exports.searchProduct =async (req,res)=>{
-  try{
+exports.searchProduct = async (req, res) => {
+  try {
+    const searchTerm = req.query.name; // Assuming the search term is passed as a query parameter
+    const regex = new RegExp(searchTerm, 'i');
 
-  }catch(err){
+    // Fetch all products and populate categoryId and brandId
+    const allProducts = await product.find({})
+      .populate('categoryId')
+      .populate('brandId');
 
+    // Filter products based on the search term
+    const filteredProducts = allProducts.filter(product => {
+      const matchesName = regex.test(product.name);
+      const matchesBrand = product.brandId && regex.test(product.brandId.name);
+      const matchesCategory = product.categoryId && product.categoryId.some(category => regex.test(category.name));
+
+      return matchesName || matchesBrand || matchesCategory;
+    });
+
+    if (filteredProducts.length === 0) {
+      console.log('No products found matching the criteria');
+    } else {
+      console.log(`Found ${filteredProducts.length} products matching the criteria`);
+    }
+
+    res.status(200).json(filteredProducts);
+  } catch (err) {
+    console.error('Error occurred while searching for products:', err);
+    res.status(500).json({ message: 'An error occurred while searching for products' });
   }
-}
-
-
+};
 
 
 

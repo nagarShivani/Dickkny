@@ -55,7 +55,7 @@ exports.getCountOfCartAndWishListOfUser = async (req, res) => {
     const userId = req.params.userId;
     const cart = await Cart.findOne({ userId });
     const wish = await WishList.findOne({ userId });
-
+    cart.items = cart.items.filter(item => item.productId !== null)
   
 
     res.json({cartLength:cart?.items?.length || 0,wishListLength:wish?.items?.length || 0});
