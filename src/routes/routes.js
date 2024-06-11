@@ -100,6 +100,7 @@ router.get("/getProductByCategoryId/:categoryId",product_controller.getProductBy
 router.get("/getAllProductsById/:id",product_controller.getAllProductsById);
 router.delete("/deleteProduct/:id",product_controller.deleteProduct);
 router.get("/getCatProdBrand",product_controller.getCatProdBrand);
+router.get("/sortProductByPrice",product_controller.sortProductByPrice);
 
 //Product Cart
 router.post("/addTocart",cart_controller.addTocart);

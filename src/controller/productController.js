@@ -290,14 +290,63 @@ exports.searchProduct = async (req, res) => {
       try{
         const brandArr = await Brand.find();
         const CategoryArr = await Category.find();
-        const productArr =await product.find();
-        res.status(200).json({brand:brandArr,category:CategoryArr,product:productArr})
+        const colorArr =await Color.find();
+        const sizeArr =await Size.find();
+        res.status(200).json({brand:brandArr,category:CategoryArr,
+          color:colorArr,size:sizeArr
+          ,minPrice:0,maxPrice:3000
+        })
       }catch(err){
       res.status(500).json({ message: 'An error occurred' });
       }
     }
 
 
+    exports.sortProductByPrice = async (req, res) => {
+      try {
+        const sortOption = req.query.sort; // 'high' for high to low, 'low' for low to high
+    
+        let sortCriteria;
+        if (sortOption === 'high') {
+          sortCriteria = { price: -1 }; // Sort by price high to low
+        } else if (sortOption === 'low') {
+          sortCriteria = { price: 1 }; // Sort by price low to high
+        } else {
+          return res.status(400).json({ message: 'Invalid sort option' });
+        }
+    
+        let products = await product.find({})
+          .populate('categoryId')
+          .populate('brandId');
+    
+        // Convert price and salePrice to numbers for sorting
+        products = products.map(product => {
+          product.price = parseFloat(product.price);
+          if (product.price) {
+            product.price = parseFloat(product.price);
+          }
+          return product;
+        });
+    
+        // Sort based on the specified criteria
+        products.sort((a, b) => {
+          const priceA = a.price || a.price;
+          const priceB = b.price || b.price;
+    
+          if (sortCriteria.price === 1) {
+            return priceA - priceB; // Low to high
+          } else {
+            return priceB - priceA; // High to low
+          }
+        });
+    
+        res.status(200).json(products);
+      } catch (err) {
+        console.error('Error occurred while sorting products:', err);
+        res.status(500).json({ message: 'An error occurred while sorting products' });
+      }
+    };
+    
 
 
 
