@@ -9,6 +9,7 @@ const coupon_controller=require("../controller/couponController");
 const order_controller=require("../controller/orderController");
 const billing_controller=require("../controller/billingController");
 const blog_controller=require("../controller/blogcontroller");
+const banner_controller=require("../controller/bannerController");
 const brand_controller=require("../controller/brandController");
 const size_controller=require("../controller/sizeController");
 const color_controller=require("../controller/colorController");
@@ -37,6 +38,13 @@ router.get("/getAllBlog",blog_controller.getAllBlog);
 router.put("/updateBlog/:id",blog_controller.updateBlog);
 router.delete("/deleteBlog/:id",blog_controller.deleteBlog);
 router.get("/getAllBlogById/:id",blog_controller.getAllBlogById);
+
+//Banner Routes
+router.post("/addBanner",banner_controller.addBanner);
+router.get("/getAllBanner",banner_controller.getAllBanner);
+router.put("/updateBanner/:id",banner_controller.updateBanner);
+router.delete("/deleteBanner/:id",banner_controller.deleteBanner);
+router.get("/getAllBannerById/:id",banner_controller.getAllBannerById);
 
 //Brand Routes
 router.post("/addBrand",brand_controller.addBrand);
