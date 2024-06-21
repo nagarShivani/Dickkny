@@ -4,6 +4,10 @@ const WishList = require("../Schema/wishlist");
 exports.addTocart = async (req, res) => {
   try {
     const { userId, productId, quantity,size } = req.body;
+    if(!size){
+      res.json({error:"Please select size"})
+      return 
+    }
     
     // Check if user already has a cart
     let cart = await Cart.findOne({ userId });
