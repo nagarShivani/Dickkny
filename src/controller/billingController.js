@@ -1,5 +1,6 @@
 const Billing = require("../Schema/billing");
-
+const Product = require('../Schema/userSchema'); // Adjust the path as needed
+const User = require('../Schema/userSchema');  
 
 
 async function generateOrderId() {
@@ -57,11 +58,14 @@ async function generateOrderId() {
   };
   
 
-exports.getAllBills = async (req, res) => {
+  exports.getAllBills = async (req, res) => {
     try {
-      const bills = await Billing.find().populate('productId').populate('userId');
-      if(!bills) {
-        return res.status(404).json({ error: 'No Bills found' });
+      const bills = await Billing.find()
+        .populate('products.productId')
+        .populate('userId');
+      
+      if (!bills || bills.length === 0) {
+        return res.status(404).json({ error: 'No bills found' });
       }
   
       res.status(200).json({ bills });
@@ -70,3 +74,4 @@ exports.getAllBills = async (req, res) => {
       res.status(500).json({ error: 'Failed to fetch bills' });
     }
   };
+  
