@@ -1,5 +1,6 @@
 const Billing = require("../Schema/billing");
 const Cart = require('../Schema/cart');  
+const Order = require('../Schema/order');  
 
 async function generateOrderId() {
   try {
@@ -52,6 +53,26 @@ exports.payBill = async (req, res) => {
       cart.items = cart.items.filter(item => !products.some(p => p.productId.toString() === item.productId.toString()));
       await cart.save();
     }
+    const orderIdfororder = await generateOrderId();
+
+
+    const order = new Order({
+      userId,
+      products: products.map(product => ({
+        productId: product.productId,
+        quantity: product.productQty
+      })),
+      totalPrice: totalAmount,
+      addressId : req.body.addressId,
+      paymentId : req.body.paymentId,
+      paymentMethod:'Online',
+      orderId: orderIdfororder,
+      status: 'Pending' 
+    });
+
+    // Save the Order document
+    await order.save();
+
 
     // Send response with payment details
     res.status(201).json({

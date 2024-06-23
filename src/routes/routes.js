@@ -136,7 +136,7 @@ router.put('/updateCoupon/:id', coupon_controller.updateCoupon);
 router.delete('/deleteCoupon/:id', coupon_controller.deleteCoupon);
 
 //orders
-router.get('/getMyOrders', order_controller.getMyOrders);
+router.get('/getMyOrders/:userId', order_controller.getMyOrders);
 router.get('/getAllOrders', order_controller.getAllOrders);
 
 module.exports = router;

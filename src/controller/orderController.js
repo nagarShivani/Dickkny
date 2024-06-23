@@ -14,10 +14,14 @@ exports.getAllOrders = async (req, res) => {
   }
 };
 
+
 exports.getMyOrders = async (req, res) => {
   try {
-    const orders = await Order.find({ user: req.user._id });
-    if(!orders) {
+    const userId = req.params.userId; // Extract userId from request parameters
+
+    const orders = await Order.find({ userId });
+
+    if (!orders || orders.length === 0) {
       return res.status(404).json({ error: 'No orders found' });
     }
 
