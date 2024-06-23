@@ -12,6 +12,7 @@ const billingSchema = new mongoose.Schema({
   ],
   userId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Users' },
   totalAmount: { type: String, required: true },
+  addressId: { type: String, required: true },
   status: { type: String, enum: ['pending', 'completed', 'failed'], default: 'pending' },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }
