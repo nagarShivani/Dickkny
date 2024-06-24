@@ -60,7 +60,8 @@ exports.payBill = async (req, res) => {
       userId,
       products: products.map(product => ({
         productId: product.productId,
-        quantity: product.productQty
+        quantity: product.productQty,
+        productSize: product.productSize
       })),
       totalPrice: totalAmount,
       addressId : req.body.addressId,
