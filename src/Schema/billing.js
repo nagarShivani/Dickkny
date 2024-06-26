@@ -22,9 +22,9 @@
 const mongoose = require('mongoose');
 
 const billingSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'Users', required: true },
   products: [{
-    productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },
+    productId: { type: mongoose.Schema.Types.ObjectId, ref: 'product', required: true },
     productAmount: { type: Number, required: true },
     productQty: { type: Number, required: true },
     productSize: { type: String, required: true }
