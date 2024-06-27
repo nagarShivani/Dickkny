@@ -23,6 +23,9 @@ exports.addProduct = async (req, res) => {
       size,
      
     } = req.body;
+    if(!salePrice){
+      return res.status(400).json({error:'Please Enter Sale Price'})
+    }
 
     const newproduct= new product({
         userId,
@@ -42,6 +45,7 @@ exports.addProduct = async (req, res) => {
     });
 
     await newproduct.save();
+
 
     res.status(201).json({ message: "Product added successfully", data: newproduct });
   } catch (err) {
@@ -70,6 +74,9 @@ exports.updateProduct = async (req, res) => {
       color,
       size,
     } = req.body;
+    if(!salePrice){
+      return res.status(400).json({error:'Please Enter Sale Price'})
+    }
 
     const updatedProduct = await product.findByIdAndUpdate(
       productId,
@@ -160,19 +167,19 @@ exports.getAllProduct = async (req, res) => {
 
 exports.getAllProductApiforFilter = async (req, res) => {
   try {
-    const { price_min, price_max, color, size, page = 1, limit = 10 } = req.query;
+    const { price_min, price_max, color, size, category, page = 1, limit = 10 } = req.query;
 
     // Construct filter object
     let filter = {};
 
     // Handle price filter
     if (price_min || price_max) {
-      filter.price = {};
+      filter.salePrice = {};
       if (price_min) {
-        filter.price.$gte = parseFloat(price_min);
+        filter.salePrice.$gte = parseFloat(price_min);
       }
       if (price_max) {
-        filter.price.$lte = parseFloat(price_max);
+        filter.salePrice.$lte = parseFloat(price_max);
       }
     }
 
@@ -192,11 +199,23 @@ exports.getAllProductApiforFilter = async (req, res) => {
       filter.size = { $in: sizeIds };
     }
 
+    // Handle category filter
+    if (category) {
+      const categoryNames = Array.isArray(category) ? category : [category];
+      const trimmedCategoryNames = categoryNames.map(cat => cat.trim().replace(/"/g, ''));
+      const categoryDocs = await Category.find({ name: { $in: trimmedCategoryNames } });
+      const categoryIds = categoryDocs.map(cat => cat._id);
+      filter.categoryId = { $in: categoryIds };
+    }
+
+    console.log("Filter Object:", filter);
+
     // Calculate pagination values
     const skip = (parseInt(page) - 1) * parseInt(limit);
 
     // Get the total count of filtered products
     const totalProducts = await product.countDocuments(filter);
+    console.log("Total Products Found:", totalProducts);
 
     // Get the filtered products with pagination
     const getAllProduct = await product.find(filter)
@@ -206,6 +225,20 @@ exports.getAllProductApiforFilter = async (req, res) => {
       .populate('size')
       .skip(skip)
       .limit(parseInt(limit));
+
+    console.log("Filtered Products:", getAllProduct);
+
+    if (getAllProduct.length === 0) {
+      return res.status(404).json({
+        message: "No products found matching the criteria",
+        data: [],
+        pagination: {
+          totalProducts: 0,
+          currentPage: parseInt(page),
+          totalPages: 0
+        }
+      });
+    }
 
     res.status(200).json({
       message: "Product List fetched successfully",
@@ -221,6 +254,11 @@ exports.getAllProductApiforFilter = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+
+
+
+
 
 
 
