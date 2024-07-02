@@ -7,6 +7,10 @@ const wishListItemSchema = new mongoose.Schema({
     ref: 'product',
     required: true
   },
+  size: {
+    type: String,
+    // required: true,
+  }
 
 });
 

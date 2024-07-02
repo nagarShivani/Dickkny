@@ -41,11 +41,11 @@ exports.addTocart = async (req, res) => {
 exports.getCartOfUser = async (req, res) => {
   try {
     const userId = req.params.userId;
-    const cart = await Cart.findOne({ userId }).populate('items.productId');
+    const cart = await Cart.findOne({ userId }).populate('items.productId').populate('items.productId.size');
 
     if (!cart) {
       return res.status(200).json({ error: 'Cart not found' });
-    }
+    } 
     cart.items = cart.items.filter(item => item.productId !== null);
     res.json(cart);
   } catch (err) {

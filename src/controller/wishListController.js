@@ -2,7 +2,7 @@ const WishList = require("../Schema/wishlist");
 
 exports.addToWishList = async (req, res) => {
     try {
-      const { userId, productId } = req.body;
+      const { userId, productId,size } = req.body;
       let wish = await WishList.findOne({ userId });
       if (!wish) {
         wish = new WishList({ userId, items: [] });
@@ -11,7 +11,7 @@ exports.addToWishList = async (req, res) => {
       if (existingItem) {
         return res.status(200).json({ message: 'Item already added to wishlist' }); // Added return statement here
       } else {
-        wish.items.push({ productId });
+        wish.items.push({ productId,size });
       }
       await wish.save();
       return res.json({ message: 'Item added to WishList successfully' }); // Added return statement here
