@@ -138,5 +138,6 @@ router.delete('/deleteCoupon/:id', coupon_controller.deleteCoupon);
 //orders
 router.get('/getMyOrders/:userId', order_controller.getMyOrders);
 router.get('/getAllOrders', order_controller.getAllOrders);
+router.post('/upload', order_controller.upload);
 
 module.exports = router;

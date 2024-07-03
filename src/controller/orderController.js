@@ -1,6 +1,10 @@
 const Order = require('../Schema/order');
 const User = require('../Schema/userSchema');
+const imagesSchema = require('../Schema/imagesSchema');
+const multer = require('multer');
+const path = require('path');
 
+// Multer configuration for file storage
 exports.getAllOrders = async (req, res) => {
   try {
     const orders = await Order.find();
@@ -48,4 +52,53 @@ exports.getMyOrders = async (req, res) => {
     console.error('Error fetching orders or user:', error);
     res.status(500).json({ error: 'Failed to fetch orders or user' });
   }
+};
+
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/');
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({ storage: storage }).single('image');
+
+exports.upload = async (req, res) => {
+  upload(req, res, async function (err) {
+    if (err instanceof multer.MulterError) {
+      return res.status(500).json({ error: err.message });
+    } else if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+
+    const name = req.body.name;
+    const image = req.file;
+
+    if (!name || !image) {
+      return res.status(400).json({ error: 'Name and image are required' });
+    }
+
+    try {
+      // Save the image details to MongoDB
+      const newImage = new imagesSchema({
+        image: image.path,
+        name: name
+      });
+      await newImage.save();
+
+      res.status(200).json({
+        message: 'Image uploaded and saved successfully',
+        data: {
+          name: name,
+          imagePath: image.path
+        }
+      });
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to save image to database' });
+    }
+  });
 };
