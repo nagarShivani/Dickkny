@@ -67,7 +67,7 @@ exports.payBill = async (req, res) => {
       addressId : req.body.addressId,
       paymentId : req.body.paymentId,
       paymentMethod:'Online',
-      orderId: orderIdfororder,
+      orderId: orderIdfororder - 1,
       status: 'Pending' 
     });
 

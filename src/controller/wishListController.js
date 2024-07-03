@@ -24,7 +24,10 @@ exports.addToWishList = async (req, res) => {
   exports.getWishListOfUser = async (req, res) => {
     try {
       const userId = req.params.userId;
-      const wish = await WishList.findOne({ userId }).populate('items.productId');
+      const wish = await WishList.findOne({ userId }).populate({
+        path: 'items.productId',
+        populate: { path: 'size' }
+      });
   
       if (!wish) {
         return res.status(404).json({ message: 'Wishlist not found' }); // Changed status code to 404
