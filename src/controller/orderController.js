@@ -19,7 +19,6 @@ exports.getAllOrders = async (req, res) => {
   }
 };
 
-
 exports.getMyOrders = async (req, res) => {
   try {
     const userId = req.params.userId; // Extract userId from request parameters
@@ -31,9 +30,6 @@ exports.getMyOrders = async (req, res) => {
       return res.status(404).json({ error: 'No orders found' });
     }
 
-    // Extract all addressIds from the orders
-    const addressIds = orders.map(order => order.addressId);
-
     // Find user record with matching userId
     const user = await User.findOne({ _id: userId });
 
@@ -41,18 +37,67 @@ exports.getMyOrders = async (req, res) => {
       return res.status(404).json({ error: 'User not found' });
     }
 
-    // Filter user's multipleAddressArray to include only addresses with matching addressIds
-    const filteredAddresses = user.multipleAddressArray.filter(address =>
-      addressIds.includes(address._id.toString())
-    );
+    // Create a map of user's addresses
+    const addressMap = user.multipleAddressArray.reduce((map, address) => {
+      map[address._id.toString()] = address;
+      return map;
+    }, {});
 
-    // If user found, you can now process orders and filtered user data as needed
-    res.status(200).json({ orders, user: { ...user.toObject(), multipleAddressArray: filteredAddresses } });
+    // Attach the matched address to each product in the orders
+    const ordersWithAddressInProducts = orders.map(order => {
+      const address = addressMap[order.addressId.toString()];
+      return {
+        ...order.toObject(),
+        products: order.products.map(product => ({
+          ...product.toObject(),
+          selectedAddress: address
+        }))
+      };
+    });
+
+    // Send the updated orders
+    res.status(200).json({ orders: ordersWithAddressInProducts });
   } catch (error) {
     console.error('Error fetching orders or user:', error);
     res.status(500).json({ error: 'Failed to fetch orders or user' });
   }
 };
+
+
+
+// exports.getMyOrders = async (req, res) => {
+//   try {
+//     const userId = req.params.userId; // Extract userId from request parameters
+
+//     // Find orders for the userId
+//     const orders = await Order.find({ userId }).populate('products.productId');
+
+//     if (!orders || orders.length === 0) {
+//       return res.status(404).json({ error: 'No orders found' });
+//     }
+
+//     // Extract all addressIds from the orders
+//     const addressIds = orders.map(order => order.addressId);
+
+//     // Find user record with matching userId
+//     const user = await User.findOne({ _id: userId });
+
+//     if (!user) {
+//       return res.status(404).json({ error: 'User not found' });
+//     }
+
+//     // Filter user's multipleAddressArray to include only addresses with matching addressIds
+//     const filteredAddresses = user.multipleAddressArray.filter(address =>
+//       addressIds.includes(address._id.toString())
+//     );
+
+//     // If user found, you can now process orders and filtered user data as needed
+//     res.status(200).json({ orders, user: { ...user.toObject(), multipleAddressArray: filteredAddresses } });
+//   } catch (error) {
+//     console.error('Error fetching orders or user:', error);
+//     res.status(500).json({ error: 'Failed to fetch orders or user' });
+//   }
+// };
 
 
 const storage = multer.diskStorage({
