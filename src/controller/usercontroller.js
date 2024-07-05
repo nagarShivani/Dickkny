@@ -233,6 +233,34 @@ exports.addAddress = async (req, res) => {
   }
 };
 
+
+
+exports.getAddressById = async (req, res) => {
+  const { userId, addressId } = req.params;
+
+  try {
+    const user = await UsersModel.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Find the address
+    const address = user.multipleAddressArray.find(
+      (address) => address._id.toString() === addressId
+    );
+
+    if (!address) {
+      return res.status(404).json({ message: 'Address not found' });
+    }
+
+    res.status(200).json({ address });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error });
+  }
+};
+
+
 exports.updateAddress = async (req, res) => {
   try {
     const { userId, addressId } = req.params;
