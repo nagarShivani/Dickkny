@@ -212,6 +212,10 @@ exports.addAddress = async (req, res) => {
     if (!user) {
       return res.status(404).json({ success: false, error: 'User not found' });
     }
+    if(!req.body.streetAddress || !req.body.city || !req.body.state || !req.body.postcode){
+
+      return res.status(400).json({success: false, error:'streetAddress,city,state,postcode is required'})
+    }
 
     const newAddress = {
       streetAddress: req.body.streetAddress,
