@@ -3,6 +3,7 @@ const WishList = require("../Schema/wishlist");
 
 exports.addTocart = async (req, res) => {
   try {
+    //please send id in the size
     const { userId, productId, quantity,size } = req.body;
     if (!size) {
       return res.status(400).json({ error: "Please select size" });
