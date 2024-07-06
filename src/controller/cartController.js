@@ -62,15 +62,26 @@ exports.getCountOfCartAndWishListOfUser = async (req, res) => {
     const userId = req.params.userId;
     const cart = await Cart.findOne({ userId });
     const wish = await WishList.findOne({ userId });
-    cart.items = cart.items.filter(item => item.productId !== null)
-  
 
-    res.json({cartLength:cart?.items?.length || 0,wishListLength:wish?.items?.length || 0});
+    let cartLength = 0;
+    let wishListLength = 0;
+
+    if (cart && cart.items) {
+      cart.items = cart.items.filter(item => item.productId !== null);
+      cartLength = cart.items.length;
+    }
+
+    if (wish && wish.items) {
+      wishListLength = wish.items.length;
+    }
+
+    res.json({ cartLength, wishListLength });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Internal server error' });
   }
 }
+
   
     exports.removeFromCart = async (req, res) => {
   try {
