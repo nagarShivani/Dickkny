@@ -190,19 +190,20 @@ exports.getAllProductApiforFilter = async (req, res) => {
 
     // Handle color filter
     if (color) {
-      const colorNames = color.split(',').map(c => c.trim().replace(/"/g, ''));
+      const colorNames = Array.isArray(color) ? color : color.split(',').map(c => c.trim().replace(/"/g, ''));
       const colorDocs = await Color.find({ color: { $in: colorNames } });
       const colorIds = colorDocs.map(c => c._id);
       filter.color = { $in: colorIds };
     }
-
+    
     // Handle size filter
     if (size) {
-      const sizeNames = size.split(',').map(s => s.trim().replace(/"/g, ''));
+      const sizeNames = Array.isArray(size) ? size : size.split(',').map(s => s.trim().replace(/"/g, ''));
       const sizeDocs = await Size.find({ size: { $in: sizeNames } });
       const sizeIds = sizeDocs.map(s => s._id);
       filter.size = { $in: sizeIds };
     }
+    
 
     // Handle category filter
     if (category) {
