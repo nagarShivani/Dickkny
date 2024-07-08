@@ -270,6 +270,7 @@ exports.getCatSizeColorBrandPrice = async (req, res) => {
       sizes,
       colors,
       categories,
+      price:5000
     });
   } catch (err) {
     console.error(err);
