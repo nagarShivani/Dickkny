@@ -165,98 +165,6 @@ exports.getAllProduct = async (req, res) => {
 
 };
 
-// exports.getAllProductApiforFilter = async (req, res) => {
-//   try {
-//     const { price_min, price_max, color, size, category, page = 1, limit = 10 } = req.query;
-
-//     // Construct filter object
-//     let filter = {};
-
-//     // Handle price filter
-//     if (price_min || price_max) {
-//       filter.salePrice = {};
-//       if (price_min) {
-//         filter.salePrice.$gte = parseFloat(price_min);
-//       }
-//       if (price_max) {
-//         filter.salePrice.$lte = parseFloat(price_max);
-//       }
-//     }
-
-//     // Handle color filter
-//     if (color) {
-//       const colorNames = color.split(',').map(c => c.trim().replace(/"/g, ''));
-//       const colorDocs = await Color.find({ color: { $in: colorNames } });
-//       const colorIds = colorDocs.map(c => c._id);
-//       filter.color = { $in: colorIds };
-//     }
-
-//     // Handle size filter
-//     if (size) {
-//       const sizeNames = size.split(',').map(s => s.trim().replace(/"/g, ''));
-//       const sizeDocs = await Size.find({ size: { $in: sizeNames } });
-//       const sizeIds = sizeDocs.map(s => s._id);
-//       filter.size = { $in: sizeIds };
-//     }
-
-//     // Handle category filter
-//     if (category) {
-//       const categoryNames = Array.isArray(category) ? category : [category];
-//       const trimmedCategoryNames = categoryNames.map(cat => cat.trim().replace(/"/g, ''));
-//       const categoryDocs = await Category.find({ name: { $in: trimmedCategoryNames } });
-//       const categoryIds = categoryDocs.map(cat => cat._id);
-//       filter.categoryId = { $in: categoryIds };
-//     }
-
-//     console.log("Filter Object:", filter);
-
-//     // Calculate pagination values
-//     const skip = (parseInt(page) - 1) * parseInt(limit);
-
-//     // Get the total count of filtered products
-//     const totalProducts = await product.countDocuments(filter);
-//     console.log("Total Products Found:", totalProducts);
-
-//     // Get the filtered products with pagination
-//     const getAllProduct = await product.find(filter)
-//       .populate('categoryId')
-//       .populate('brandId')
-//       .populate('color')
-//       .populate('size')
-//       .skip(skip)
-//       .limit(parseInt(limit));
-
-//     console.log("Filtered Products:", getAllProduct);
-
-//     if (getAllProduct.length === 0) {
-//       return res.status(404).json({
-//         message: "No products found matching the criteria",
-//         data: [],
-//         pagination: {
-//           totalProducts: 0,
-//           currentPage: parseInt(page),
-//           totalPages: 0
-//         }
-//       });
-//     }
-
-//     res.status(200).json({
-//       message: "Product List fetched successfully",
-//       data: getAllProduct,
-//       pagination: {
-//         totalProducts: totalProducts,
-//         currentPage: parseInt(page),
-//         totalPages: Math.ceil(totalProducts / parseInt(limit))
-//       }
-//     });
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ message: "Internal server error" });
-//   }
-// };
-
-
-
 
 exports.getAllProductApiforFilter = async (req, res) => {
   try {
@@ -305,14 +213,12 @@ exports.getAllProductApiforFilter = async (req, res) => {
       filter.categoryId = { $in: categoryIds };
     }
 
-    console.log("Filter Object:", filter);
 
     // Calculate pagination values
     const skip = (parseInt(page) - 1) * parseInt(limit);
 
     // Get the total count of filtered products
     const totalProducts = await product.countDocuments(filter);
-    console.log("Total Products Found:", totalProducts);
 
     // Get the filtered products with pagination
     const getAllProduct = await product.find(filter)
@@ -323,7 +229,6 @@ exports.getAllProductApiforFilter = async (req, res) => {
       .skip(skip)
       .limit(parseInt(limit));
 
-    console.log("Filtered Products:", getAllProduct);
 
     if (getAllProduct.length === 0) {
       return res.status(404).json({
@@ -352,6 +257,24 @@ exports.getAllProductApiforFilter = async (req, res) => {
   }
 };
 
+exports.getCatSizeColorBrandPrice = async (req, res) => {
+  try {
+    const brands = await Brand.find().exec();
+    const sizes = await Size.find().exec();
+    const colors = await Color.find().exec();
+    const categories = await Category.find().exec();
+
+    return res.json({
+      brands,
+      sizes,
+      colors,
+      categories,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
 
 
 
