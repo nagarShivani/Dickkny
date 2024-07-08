@@ -45,7 +45,8 @@ exports.getCartOfUser = async (req, res) => {
     const cart = await Cart.findOne({ userId }).populate({
       path: 'items.productId',
       populate: { path: 'size' }
-    });
+    }).sort({ createdAt: -1 });
+
 
     if (!cart) {
       return res.status(200).json({ error: 'Cart not found' });
