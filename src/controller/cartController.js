@@ -67,6 +67,7 @@ exports.getCountOfCartAndWishListOfUser = async (req, res) => {
 
     let cartLength = 0;
     let wishListLength = 0;
+    console.log(cart.items,'dsdskjsj')
 
     if (cart && cart.items) {
       cart.items = cart.items.filter(item => item.productId !== null);

@@ -129,6 +129,7 @@ router.post("/removeFromWishList",wishlist_controller.removeFromWishList);
 //billing
 router.post('/payBill', billing_controller.payBill);
 router.get('/getAllBills', billing_controller.getAllBills);
+router.delete('/deleteBill/:id', billing_controller.deleteBill);
 
 //coupon 
 router.post('/createCoupon', coupon_controller.createCoupon);

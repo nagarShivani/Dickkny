@@ -7,7 +7,7 @@ const path = require('path');
 // Multer configuration for file storage
 exports.getAllOrders = async (req, res) => {
   try {
-    const orders = await Order.find().sort({ createdAt: -1 });;
+    const orders = await Order.find().populate('products.productId').populate('userId').sort({ createdAt: -1 });;
     if(!orders) {
       return res.status(404).json({ error: 'No orders found' });
     }

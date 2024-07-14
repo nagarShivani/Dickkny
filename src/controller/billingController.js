@@ -111,7 +111,7 @@ exports.payBill = async (req, res) => {
     try {
       const bills = await Billing.find()
         .populate('products.productId')
-        .populate('userId');
+        .populate('userId').sort({createdAt:-1});
       
       if (!bills || bills.length === 0) {
         return res.status(404).json({ error: 'No bills found' });
@@ -121,6 +121,20 @@ exports.payBill = async (req, res) => {
     } catch (error) {
       console.error('Error fetching bills:', error);
       res.status(500).json({ error: 'Failed to fetch bills' });
+    }
+  };
+
+  exports.deleteBill = async (req, res) => {
+    const { id } = req.params;
+    try {
+      const deletedBill = await Billing.findByIdAndDelete(id);
+      if (!deletedBill) {
+        return res.status(404).json({ error: 'Billing not found' });
+      }
+      res.status(200).json({ message: 'Billing deleted successfully' });
+    } catch (error) {
+      console.error('Error deleting Billing:', error);
+      res.status(500).json({ error: 'Failed to delete Billing' });
     }
   };
   
