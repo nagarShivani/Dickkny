@@ -1,4 +1,5 @@
 const Category = require("../Schema/category");
+const ProductModel = require("../Schema/product");
 
 exports.addCategory = async (req, res) => {
   try {
@@ -19,13 +20,26 @@ exports.addCategory = async (req, res) => {
     res.status(500).json({ error: "Failed to add Category" });
   }
 };
+
+
 exports.getAllCategory = async (req, res) => {
   try {
-    const getAllCategory = await Category.find() ;
-   
-    res
-      .status(200)
-      .json({ message: "Category List fetched successfully", data: getAllCategory });
+    const allProducts = await ProductModel.find();
+    
+    const categoryIds = new Set();
+    allProducts.forEach(product => {
+      product.categoryId.forEach(id => categoryIds.add(id.toString()));
+    });
+
+    const allCategories = await Category.find().sort({ createdAt: -1 });
+    const getAllCategory = allCategories.filter(category => 
+      categoryIds.has(category._id.toString())
+    );
+
+    res.status(200).json({
+      message: "Category List fetched successfully",
+      data: getAllCategory,
+    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Internal server error" });
