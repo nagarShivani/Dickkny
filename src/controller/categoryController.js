@@ -20,17 +20,52 @@ exports.addCategory = async (req, res) => {
     res.status(500).json({ error: "Failed to add Category" });
   }
 };
-
+exports.getAllCategoryforAdmin = async (req, res) => {
+  try {
+    const getAllCategory = await Category.find().sort({createdAt :-1}) ;
+    res.status(200).json({ message: "Category List fetched successfully", data: getAllCategory });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
 
 exports.getAllCategory = async (req, res) => {
   try {
-    const allProducts = await ProductModel.find();
+    const allProducts = await ProductModel.find().sort({createdAt:-1});
     
     const categoryIds = new Set();
     allProducts.forEach(product => {
       product.categoryId.forEach(id => categoryIds.add(id.toString()));
     });
 
+    const allCategories = await Category.find().sort({ createdAt: -1 });
+    const getAllCategory = allCategories.filter(category => 
+      categoryIds.has(category._id.toString())
+    );
+
+    res.status(200).json({
+      message: "Category List fetched successfully",
+      data: getAllCategory,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+exports.getAllCategory = async (req, res) => {
+  try {
+    // Fetch all products
+    const allProducts = await ProductModel.find();
+    
+    // Extract all unique category IDs from the products
+    const categoryIds = new Set();
+    allProducts.forEach(product => {
+      product.categoryId.forEach(id => categoryIds.add(id.toString()));
+    });
+
+    // Fetch all categories and filter them by the extracted category IDs
     const allCategories = await Category.find().sort({ createdAt: -1 });
     const getAllCategory = allCategories.filter(category => 
       categoryIds.has(category._id.toString())

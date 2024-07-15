@@ -94,6 +94,7 @@ router.get("/getAllgetInTouchById/:id",getInTouch_controller.getAllgetInTouchByI
 //Category Routes
 router.post("/addCategory",category_controller.addCategory);
 router.get("/getAllCategory",category_controller.getAllCategory);
+router.get("/getAllCategoryforAdmin",category_controller.getAllCategoryforAdmin);
 router.put("/updateCategory/:id",category_controller.updateCategory);
 router.delete("/deleteCategory/:id",category_controller.deleteCategory);
 router.get("/getAllCategoryById/:id",category_controller.getAllCategoryById);
