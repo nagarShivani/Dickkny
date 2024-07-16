@@ -40,7 +40,7 @@ exports.payBill = async (req, res) => {
       totalAmount,
       addressId,
       paymentId,
-      orderId, // Assign generated orderId
+      orderId : parseInt(orderId), // Assign generated orderId
       status: 'completed' // Assuming payment is completed immediately for the sake of this example
     });
 
@@ -67,7 +67,7 @@ exports.payBill = async (req, res) => {
       addressId,
       paymentId,
       paymentMethod: 'Online',
-      orderId: orderIdForOrder,
+      orderId: parseInt(orderIdForOrder) -1,
       status: 'Pending'
     });
 

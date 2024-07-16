@@ -30,7 +30,7 @@ const billingSchema = new mongoose.Schema({
     productSize: { type: String, required: true }
   }],
   totalAmount: { type: Number, required: true },
-  orderId: { type: String, required: true },
+  orderId: { type: Number, required: true },
   status: { type: String, required: true },
   paymentId: { type: String },
   addressId: { type: String },
