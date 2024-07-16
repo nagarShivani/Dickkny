@@ -44,6 +44,7 @@ exports.getCartOfUser = async (req, res) => {
     const userId = req.params.userId;
     const cart = await Cart.findOne({ userId }).populate({
       path: 'items.productId',
+      path: 'items.size',
       populate: { path: 'size' }
     }).sort({ createdAt: -1 });
 

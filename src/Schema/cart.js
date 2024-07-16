@@ -13,7 +13,8 @@ const cartItemSchema = new mongoose.Schema({
     min: 1
   },
   size: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref:'size'
     // required: true,
   }
 });
