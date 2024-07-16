@@ -16,7 +16,7 @@ async function generateOrderId() {
   
 exports.payBill = async (req, res) => {
   try {
-    const { products, userId, totalAmount,addressId,paymentId } = req.body;
+    const { products, userId, totalAmount, addressId, paymentId } = req.body;
 
     // Validate products array
     if (!Array.isArray(products) || products.length === 0) {
@@ -53,8 +53,8 @@ exports.payBill = async (req, res) => {
       cart.items = cart.items.filter(item => !products.some(p => p.productId.toString() === item.productId.toString()));
       await cart.save();
     }
-    const orderIdfororder = await generateOrderId();
 
+    const orderIdForOrder = await generateOrderId();
 
     const order = new Order({
       userId,
@@ -64,16 +64,15 @@ exports.payBill = async (req, res) => {
         productSize: product.productSize
       })),
       totalPrice: totalAmount,
-      addressId : req.body.addressId,
-      paymentId : req.body.paymentId,
-      paymentMethod:'Online',
-      orderId: orderIdfororder - 1,
-      status: 'Pending' 
+      addressId,
+      paymentId,
+      paymentMethod: 'Online',
+      orderId: orderIdForOrder,
+      status: 'Pending'
     });
 
     // Save the Order document
     await order.save();
-
 
     // Send response with payment details
     res.status(201).json({
@@ -89,18 +88,17 @@ exports.payBill = async (req, res) => {
     });
 
   } catch (err) {
-    console.error(err);
+    console.error('Error during payment process:', err);
 
     // Handle specific errors
     if (err.message === 'Failed to generate orderId') {
       return res.status(500).json({ success: false, error: 'Failed to generate orderId', details: err.message });
-    }  else {
+    } else {
       // Handle other errors
       return res.status(500).json({ success: false, error: 'Internal server error', details: err.message });
     }
   }
 };
-
   
   
   
