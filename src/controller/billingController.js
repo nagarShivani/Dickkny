@@ -94,9 +94,7 @@ exports.payBill = async (req, res) => {
     // Handle specific errors
     if (err.message === 'Failed to generate orderId') {
       return res.status(500).json({ success: false, error: 'Failed to generate orderId', details: err.message });
-    } else if (err.code === 11000 && err.keyPattern && err.keyPattern.orderId === 1) {
-      return res.status(500).json({ success: false, error: 'Duplicate orderId error', details: err.message });
-    } else {
+    }  else {
       // Handle other errors
       return res.status(500).json({ success: false, error: 'Internal server error', details: err.message });
     }
