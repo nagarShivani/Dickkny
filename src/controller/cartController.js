@@ -63,21 +63,22 @@ exports.getCartOfUser = async (req, res) => {
 exports.getCountOfCartAndWishListOfUser = async (req, res) => {
   try {
     const userId = req.params.userId;
-    const cart = await Cart.findOne({ userId });
-    const wish = await WishList.findOne({ userId });
 
-    let cartLength = 0;
-    let wishListLength = 0;
-    console.log(cart.items,'dsdskjsj')
+    // Use aggregation to count items directly from the database
+    const cartPromise = Cart.aggregate([
+      { $match: { userId } },
+      { $project: { itemCount: { $size: { $filter: { input: "$items", as: "item", cond: { $ne: ["$$item.productId", null] } } } } } }
+    ]);
 
-    if (cart && cart.items) {
-      cart.items = cart.items.filter(item => item.productId !== null);
-      cartLength = cart.items.length;
-    }
+    const wishPromise = WishList.aggregate([
+      { $match: { userId } },
+      { $project: { itemCount: { $size: "$items" } } }
+    ]);
 
-    if (wish && wish.items) {
-      wishListLength = wish.items.length;
-    }
+    const [cartResult, wishResult] = await Promise.all([cartPromise, wishPromise]);
+
+    const cartLength = cartResult[0]?.itemCount || 0;
+    const wishListLength = wishResult[0]?.itemCount || 0;
 
     res.json({ cartLength, wishListLength });
   } catch (err) {
@@ -85,6 +86,7 @@ exports.getCountOfCartAndWishListOfUser = async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 }
+
 
   
     exports.removeFromCart = async (req, res) => {
