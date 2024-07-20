@@ -117,9 +117,9 @@ exports.getProductByCategoryId = async (req, res) => {
 
     const productByCategory = await product.find({ categoryId: { $in: [categoryId] } }).populate('size')
     .populate('color');
-    if (!productByCategory || productByCategory.length === 0) {
-      return res.status(404).json({ error: "Product not found" });
-    }
+    // if (!productByCategory || productByCategory.length === 0) {
+    //   return res.status(404).json({ error: "Product not found" });
+    // }
     res.status(200).json(productByCategory);
   } catch (error) {
     console.error("Error fetching product by category:", error);
