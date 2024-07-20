@@ -110,7 +110,7 @@ exports.payBill = async (req, res) => {
         .populate('userId').sort({createdAt:-1});
       
       if (!bills || bills.length === 0) {
-        return res.status(404).json({ error: 'No bills found' });
+        return res.status(200).json({ bills });
       }
   
       res.status(200).json({ bills });
