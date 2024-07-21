@@ -1,6 +1,5 @@
 const Cart = require("../Schema/cart");
 const WishList = require("../Schema/wishlist");
-
 exports.addTocart = async (req, res) => {
   try {
     //please send id in the size
@@ -60,32 +59,28 @@ exports.getCartOfUser = async (req, res) => {
   }
 };
 
+
+
 exports.getCountOfCartAndWishListOfUser = async (req, res) => {
   try {
-    const userId = req.params.userId;
+    const userId = req.params.userId
 
-    // Use aggregation to count items directly from the database
-    const cartPromise = Cart.aggregate([
-      { $match: { userId } },
-      { $project: { itemCount: { $size: { $filter: { input: "$items", as: "item", cond: { $ne: ["$$item.productId", null] } } } } } }
-    ]);
-
-    const wishPromise = WishList.aggregate([
-      { $match: { userId } },
-      { $project: { itemCount: { $size: "$items" } } }
-    ]);
+    // Fetch the cart and wishlist documents
+    const cartPromise = Cart.findOne({ userId });
+    const wishPromise = WishList.findOne({ userId });
 
     const [cartResult, wishResult] = await Promise.all([cartPromise, wishPromise]);
 
-    const cartLength = cartResult[0]?.itemCount || 0;
-    const wishListLength = wishResult[0]?.itemCount || 0;
+    // Calculate the lengths of the items arrays
+    const cartLength = cartResult ? cartResult.items.length : 0;
+    const wishListLength = wishResult ? wishResult.items.length : 0;
 
     res.json({ cartLength, wishListLength });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Internal server error' });
   }
-}
+};
 
 
   
