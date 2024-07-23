@@ -167,7 +167,7 @@ exports.forgot = async (req, res) => {
       from: "viddeveloper101@gmail.com",
       to: email,
       subject: "Reset Your Password",
-      text: `http://localhost:4200/reset-password/${user._id}/${token}`,
+      text: `https://dickkny.com/reset-password/${user._id}/${token}`,
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
