@@ -130,33 +130,15 @@ exports.getProductByCategoryId = async (req, res) => {
 
 exports.getAllProduct = async (req, res) => {
   try {
-    // Get pagination parameters from query, set default values if not provided
-    const page = parseInt(req.query.page) || 1; // Default to page 1
-    const limit = parseInt(req.query.limit) || 10; // Default to 10 items per page
-
-    // Calculate the number of documents to skip
-    const skip = (page - 1) * limit;
-
-    // Get the total count of documents
-    const totalProducts = await product.countDocuments();
-
-    // Find products with pagination
     const getAllProduct = await product.find()
       .populate('categoryId')
       .populate('brandId')
       .populate('color')
-      .populate('size')
-      .skip(skip)
-      .limit(limit);
+      .populate('size').sort({createdAt:-1})
 
     res.status(200).json({
       message: "Product List fetched successfully",
-      data: getAllProduct,
-      pagination: {
-        totalProducts,
-        currentPage: page,
-        totalPages: Math.ceil(totalProducts / limit)
-      }
+      data: getAllProduct
     });
   } catch (err) {
     console.error(err);
