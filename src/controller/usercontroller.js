@@ -356,3 +356,16 @@ exports.sendEmail = async (req,res)=>{
 
 }
 
+exports.deleteUser = async (req, res) => {
+  try {
+    const deletedEvent = await UsersModel.findByIdAndDelete(req.params.id);
+    if (!deletedEvent) {
+      return res.status(404).json({ error: "Data not found" });
+    }
+    res.status(200).json({ message: "Data deleted successfully" });
+  } catch (err) {
+    console.error("Error deleting event:", err);
+    res.status(500).json({ error: "Failed to delete event" });
+  }
+};
+

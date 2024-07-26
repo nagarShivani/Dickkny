@@ -32,7 +32,8 @@ router.get('/getAddressById/:userId/:addressId', user_controller.getAddressById)
 router.put("/updateAddress/:userId/:addressId",user_controller.updateAddress);
 router.delete("/deleteAddress/:userId/:addressId",user_controller.deleteAddress);
 router.post("/sendEmail",user_controller.sendEmail);
-
+// delete user
+router.post("/deleteUser", user_controller.deleteUser);
 
 //Blog Routes
 router.post("/addBlog",blog_controller.addBlog);
