@@ -150,7 +150,7 @@ exports.getAllProduct = async (req, res) => {
 
 exports.getAllProductApiforFilter = async (req, res) => {
   try {
-    const { price_min, price_max, color, size, category, page = 1, limit = 10 } = req.body;
+    const { price_min, price_max, color, size, brand, category } = req.body;
 
     // Construct filter object
     let filter = {};
@@ -185,7 +185,13 @@ exports.getAllProductApiforFilter = async (req, res) => {
       const sizeIds = sizeDocs.map(s => s._id);
       filter.size = { $in: sizeIds };
     }
-    
+    // Handle Brand filter
+    if (brand) {
+      const brandNames = Array.isArray(brand) ? brand : brand.split(',').map(s => s.trim().replace(/"/g, ''));
+      const brandDocs = await Brand.find({ name: { $in: brandNames } });
+      const brandIds = brandDocs.map(b => b._id);
+      filter.brandId = { $in: brandIds };
+    }
 
     // Handle category filter
     if (category) {
@@ -196,10 +202,6 @@ exports.getAllProductApiforFilter = async (req, res) => {
       filter.categoryId = { $in: categoryIds };
     }
 
-
-    // Calculate pagination values
-    const skip = (parseInt(page) - 1) * parseInt(limit);
-
     // Get the total count of filtered products
     const totalProducts = await product.countDocuments(filter);
 
@@ -209,19 +211,12 @@ exports.getAllProductApiforFilter = async (req, res) => {
       .populate('brandId')
       .populate('color')
       .populate('size')
-      .skip(skip)
-      .limit(parseInt(limit));
 
 
     if (getAllProduct.length === 0) {
       return res.status(404).json({
         message: "No products found matching the criteria",
         data: [],
-        pagination: {
-          totalProducts: 0,
-          currentPage: parseInt(page),
-          totalPages: 0
-        }
       });
     }
 
@@ -230,8 +225,7 @@ exports.getAllProductApiforFilter = async (req, res) => {
       data: getAllProduct,
       pagination: {
         totalProducts: totalProducts,
-        currentPage: parseInt(page),
-        totalPages: Math.ceil(totalProducts / parseInt(limit))
+       
       }
     });
   } catch (err) {
