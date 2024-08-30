@@ -165,5 +165,4 @@ router.delete("/deleteCoupon/:id", coupon_controller.deleteCoupon);
 router.get("/getMyOrders/:userId", order_controller.getMyOrders);
 router.get("/getAllOrders", order_controller.getAllOrders);
 router.post("/upload", order_controller.upload);
-router.put("/updateOrderStatus/:orderId", order_controller.updateOrderStatus);
 module.exports = router;
