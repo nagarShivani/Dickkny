@@ -27,7 +27,6 @@ exports.updateOrderStatus = async (req, res) => {
     const { orderId } = req.params;
     const { status } = req.body;
 
-    // Ensure status is one of the allowed values
     if (
       ![
         "Pending",
