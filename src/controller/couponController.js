@@ -14,26 +14,6 @@ exports.createCoupon = async (req, res) => {
   }
 };
 
-// exports.applyCoupon = async (req, res) => {
-//   const { code } = req.body;
-
-//   try {
-//     // Find the coupon in the database
-//     const coupon = await Coupon.findOne({ code });
-
-//     // If coupon not found or inactive, return error
-//     if (!coupon || !coupon.isActive) {
-//       return res.status(400).json({ error: "Invalid or inactive coupon" });
-//     }
-
-//     // If coupon is valid, send the discount value in response
-//     res.status(200).json({ discountValue: coupon.discountValue });
-//   } catch (error) {
-//     console.error("Error applying coupon:", error);
-//     res.status(500).json({ error: "Failed to apply coupon" });
-//   }
-// };
-
 exports.applyCoupon = async (req, res) => {
   const { code } = req.body;
 
@@ -46,21 +26,8 @@ exports.applyCoupon = async (req, res) => {
       return res.status(400).json({ error: "Invalid or inactive coupon" });
     }
 
-    // Create the response object
-    let response = {};
-
-    // Add discount value if present
-    if (coupon.discountValue !== undefined) {
-      response.discountValue = coupon.discountValue;
-    }
-
-    // Add discount value percentage if present
-    if (coupon.discountValuePercentage !== undefined) {
-      response.discountValuePercentage = coupon.discountValuePercentage;
-    }
-
-    // Send the response
-    res.status(200).json(response);
+    // If coupon is valid, send the discount value in response
+    res.status(200).json({ discountValue: coupon.discountValue });
   } catch (error) {
     console.error("Error applying coupon:", error);
     res.status(500).json({ error: "Failed to apply coupon" });
