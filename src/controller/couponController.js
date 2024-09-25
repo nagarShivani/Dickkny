@@ -4,45 +4,45 @@ const Coupon = require("../Schema/coupon");
 
 
 // Controller functions for coupons
-// exports.createCoupon = async (req, res) => {
-//   try {
-//     const coupon = new Coupon(req.body);
-//     await coupon.save();
-//     res.status(201).json(coupon);
-//   } catch (error) {
-//     console.error("Error creating coupon:", error);
-//     res.status(500).json({ error: "Failed to create coupon" });
-//   }
-// };
 exports.createCoupon = async (req, res) => {
   try {
-    // Initialize the coupon object
-    const couponData = {
-      code: req.body.code,
-      expiryDate: req.body.expiryDate,
-      description: req.body.description,
-      isActive: req.body.isActive
-    };
-
-    // Check for discount values and set accordingly
-    if (req.body.discountValue) {
-      couponData.discountValue = req.body.discountValue;
-    }
-
-    if (req.body.discountValuePercentage) {
-      couponData.discountValuePercentage = req.body.discountValuePercentage;
-    }
-
-    // Create the coupon
-    const coupon = new Coupon(couponData);
+    const coupon = new Coupon(req.body);
     await coupon.save();
-
     res.status(201).json(coupon);
   } catch (error) {
     console.error("Error creating coupon:", error);
     res.status(500).json({ error: "Failed to create coupon" });
   }
 };
+// exports.createCoupon = async (req, res) => {
+//   try {
+//     // Initialize the coupon object
+//     const couponData = {
+//       code: req.body.code,
+//       expiryDate: req.body.expiryDate,
+//       description: req.body.description,
+//       isActive: req.body.isActive
+//     };
+
+//     // Check for discount values and set accordingly
+//     if (req.body.discountValue) {
+//       couponData.discountValue = req.body.discountValue;
+//     }
+
+//     if (req.body.discountValuePercentage) {
+//       couponData.discountValuePercentage = req.body.discountValuePercentage;
+//     }
+
+//     // Create the coupon
+//     const coupon = new Coupon(couponData);
+//     await coupon.save();
+
+//     res.status(201).json(coupon);
+//   } catch (error) {
+//     console.error("Error creating coupon:", error);
+//     res.status(500).json({ error: "Failed to create coupon" });
+//   }
+// };
 exports.applyCoupon = async (req, res) => {
   const { code } = req.body;
 
