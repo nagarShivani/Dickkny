@@ -4,7 +4,7 @@ const couponSchema = new mongoose.Schema(
   {
     code: { type: String, required: true },
     discountValue: { type: String  },
-    discountValuePercentage: { type: String,},
+    discountValuePercentage: { type: String},
 
     expiryDate: { type: String, required: true },
     description: { type: String },
