@@ -111,6 +111,7 @@ router.put("/updateCategory/:id", category_controller.updateCategory);
 router.delete("/deleteCategory/:id", category_controller.deleteCategory);
 router.get("/getAllCategoryById/:id", category_controller.getAllCategoryById);
 
+
 //Product Routes
 router.post("/addProduct", product_controller.addProduct);
 router.put("/updateProduct/:id", product_controller.updateProduct);
@@ -152,6 +153,7 @@ router.post("/removeFromWishList", wishlist_controller.removeFromWishList);
 router.post("/payBill", billing_controller.payBill);
 router.get("/getAllBills", billing_controller.getAllBills);
 router.delete("/deleteBill/:id", billing_controller.deleteBill);
+
 
 //coupon
 router.post("/createCoupon", coupon_controller.createCoupon);
